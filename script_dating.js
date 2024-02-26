@@ -20,7 +20,17 @@ function decrementCounter() {
   userCounter--;
   swipsTxtRewrite.innerHTML = `<p>Du har ${userCounter} Swipes igjen og bruke</p>`;
   if (userCounter === 0) {
-    alert("Hei");
-    //Ny function om spørsmål og setter userCounter tilbake til 10
+    resetCounter();
+  }
+}
+
+function resetCounter() {
+  let userAnswer = prompt("Har du lyst til å swipe mer? Ja/Nei").toLowerCase();
+
+  if (userAnswer == "ja") {
+    userCounter = 10;
+    swipsTxtRewrite.innerHTML = `<p>Du har ${userCounter} Swipes igjen og bruke</p>`;
+  } else {
+    resetCounter();
   }
 }
