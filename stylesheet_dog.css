@@ -1,0 +1,9 @@
+.profile-card-container {
+  display: flex;
+  gap: 10px;
+  gap: 10px 20px;
+  row-gap: 10px;
+  column-gap: 20px;
+  align-content: flex-start;
+  flex-wrap: wrap;
+}
