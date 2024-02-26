@@ -10,3 +10,9 @@ header {
   margin: 40px 0px;
   color: rgb(0, 0, 0);
 }
+
+button {
+  width: 100px;
+  height: 40px;
+}
+
