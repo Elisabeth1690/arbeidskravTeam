@@ -2,17 +2,29 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+  background-color: #6cc7e3;
 }
 
 header {
   text-align: center;
   font-size: xx-large;
+  color: #ffffff;
 }
 
 img {
   display: block;
   width: 200px;
   height: auto;
+}
+
+.showBtn {
+  width: 150px;
+  height: 50px;
+  background-color: #ff6900;
+  color: #ffffff;
+  line-height: 50px;
+  border: none;
+  border-radius: 4px;
 }
 
 .profile-card-container {
