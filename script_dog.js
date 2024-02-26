@@ -46,7 +46,7 @@ function profileCard(imgDog, profileUser) {
 
   const userProfileCard = document.createElement("div");
 
-  userProfileCard.innerHTML = `<img src="${dogImg}"/><h3>Name : ${userName}</h3><h4>Location : ${userAddress}</h4>`;
+  userProfileCard.innerHTML = `<img src="${dogImg}"/><h3>Navn : ${userName}</h3><h4>Bosted : ${userAddress}</h4>`;
   profileCardContainer.appendChild(userProfileCard);
 }
 
