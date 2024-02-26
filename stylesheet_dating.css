@@ -1,0 +1,12 @@
+body,
+html {
+  width: 100%;
+  background-color: rgb(242, 210, 159);
+}
+
+header {
+  font-size: xxx-large;
+  text-align: center;
+  margin: 40px 0px;
+  color: rgb(0, 0, 0);
+}
