@@ -76,6 +76,7 @@ const deleteCard = async(userProfileCard, index) =>{
   await fetchAndShowProfile(index)
 }
 
+
 const africanBtn = document.querySelector('#african');
 const beagleBtn = document.querySelector('#beagle');
 const chowBtn = document.querySelector('#chow');
@@ -83,35 +84,56 @@ const dalmatianBtn = document.querySelector('#dalmatian');
 const eskimoBtn = document.querySelector('#eskimo');
 
 document.addEventListener("click", async (e) =>{
+  let breed
   if(e.target === africanBtn){
-    const african = 'african';
-    fetchBreed(african);
+    breed = 'african';
+    
   }
   if (e.target === beagleBtn) {
-    const beagle = 'beagle';
-    fetchBreed(beagle);
+    breed = 'beagle';
+    
   }
   if (e.target === chowBtn) {
-    const chow = 'chow';
-    fetchBreed(chow);
+    breed = 'chow';
+    
   }
   if (e.target === dalmatianBtn) {
-    const dalmatian = 'dalmatian';
-    fetchBreed(dalmatian);
+    breed = 'dalmatian';
+    
   }
   if (e.target === eskimoBtn) {
-    const eskimo = 'eskimo';
-    fetchBreed(eskimo);
+    breed = 'eskimo';
+  }
+  if(breed) {
+    await getTenBreedImages(breed)
   }
 });
 
-const fetchBreed = async(breed) => {
-try {
-  const url = `https://dog.ceo/api/breed/${breed}/images/random`
-  const request = await fetch(url)
-  const result = await request.json()
-  console.log(result, 'fetch breed')
-} catch (error) {
+const getTenBreedImages = async(breed) =>{
+  const imageUrls = [];
+  for (let i = 0; i < 10; i++){
+    const imageUrl = await fetchBreed(breed);
+    imageUrls.push(imageUrl);
+    
+  }
+  console.log(imageUrls, `array with 10 images of ${breed}`)
+  return imageUrls;
   
 }
+
+const fetchBreed = async(breed) => {
+  try {
+    const url = `https://dog.ceo/api/breed/${breed}/images/random`
+    const request = await fetch(url)
+    const result = await request.json()
+    return result.message; // Return the image URL
+  } catch (error) {
+    console.error("Error fetching breed:", error);
+    return null;
+  }
 };
+
+
+const displayImages = () => {
+
+}
