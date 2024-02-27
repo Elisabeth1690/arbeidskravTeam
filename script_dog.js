@@ -80,7 +80,7 @@ const deleteCard = async(userProfileCard, index) =>{
 const africanBtn = document.querySelector('#african');
 const beagleBtn = document.querySelector('#beagle');
 const chowBtn = document.querySelector('#chow');
-const dalmatianBtn = document.querySelector('#dingo');
+const dingoBtn = document.querySelector('#dingo');
 const eskimoBtn = document.querySelector('#eskimo');
 
 document.addEventListener("click", async (e) =>{
@@ -94,7 +94,7 @@ document.addEventListener("click", async (e) =>{
   if (e.target === chowBtn) {
     breed = 'chow';
   }
-  if (e.target === dalmatianBtn) {
+  if (e.target === dingoBtn) {
     breed = 'dingo';
   }
   if (e.target === eskimoBtn) {
