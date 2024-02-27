@@ -14,7 +14,6 @@ async function fetchRandomDogImage() {
 //console.log(fetchRandomDogImage());
 
 //Read Random User Profile
-//Read Random User Profile
 async function fetchRandomUserProfile() {
   try {
     const randomUserProfile = await fetch("https://randomuser.me/api/");
@@ -25,9 +24,7 @@ async function fetchRandomUserProfile() {
   }
 }
 
-
 console.log(fetchRandomUserProfile());
-
 
 //Read fetch and display profile card
 //promise.all - https://www.geeksforgeeks.org/javascript-promise-all-method/
@@ -69,7 +66,6 @@ function profileCard(imgDog, profileUser, index) {
 
 async function showProfileCards() {
   profileCardContainer.innerHTML = "";
-
   for (let i = 0; i < 10; i++) {
     await fetchAndShowProfile(i); //passing the index to the fetchAndShowProfile to identfy positioning
   }
@@ -83,7 +79,6 @@ const deleteCard = async(userProfileCard, index) =>{
   userProfileCard.remove()
   await fetchAndShowProfile(index)
 }
-
 
 const africanBtn = document.querySelector('#african');
 const beagleBtn = document.querySelector('#beagle');
