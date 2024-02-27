@@ -11,7 +11,7 @@ async function fetchRandomDogImage() {
   return resultRandomDogRequest;
 }
 
-console.log(fetchRandomDogImage());
+//console.log(fetchRandomDogImage());
 
 //Read Random User Profile
 async function fetchRandomUserProfile() {
@@ -20,7 +20,7 @@ async function fetchRandomUserProfile() {
   return resultRandomUserProfile.results[0];
 }
 
-console.log(fetchRandomUserProfile());
+//console.log(fetchRandomUserProfile());
 
 //Read fetch and display profile card
 //promise.all - https://www.geeksforgeeks.org/javascript-promise-all-method/
@@ -33,7 +33,7 @@ async function fetchAndShowProfile(index) {
 
     profileCard(imgDog, profileUser, index);
 
-    console.log("Inside fetch and show profile function", imgDog, profileUser, index);
+    //console.log("Inside fetch and show profile function", imgDog, profileUser, index);
   } catch (error) {
     console.error("Unable to load data", error);
   }
@@ -52,7 +52,7 @@ function profileCard(imgDog, profileUser, index) {
   const existingCard = profileCardContainer.children[index];
   profileCardContainer.insertBefore(userProfileCard, existingCard)
   userProfileCard.appendChild(deleteBtn)
-  console.log( 'inne i profileCard funksjonen', existingCard)
+  //console.log( 'inne i profileCard funksjonen', existingCard)
   deleteBtn.addEventListener("click", ()=> {
     deleteCard(userProfileCard, index)
   })
@@ -81,3 +81,37 @@ const beagleBtn = document.querySelector('#beagle');
 const chowBtn = document.querySelector('#chow');
 const dalmatianBtn = document.querySelector('#dalmatian');
 const eskimoBtn = document.querySelector('#eskimo');
+
+document.addEventListener("click", async (e) =>{
+  if(e.target === africanBtn){
+    const african = 'african';
+    fetchBreed(african);
+  }
+  if (e.target === beagleBtn) {
+    const beagle = 'beagle';
+    fetchBreed(beagle);
+  }
+  if (e.target === chowBtn) {
+    const chow = 'chow';
+    fetchBreed(chow);
+  }
+  if (e.target === dalmatianBtn) {
+    const dalmatian = 'dalmatian';
+    fetchBreed(dalmatian);
+  }
+  if (e.target === eskimoBtn) {
+    const eskimo = 'eskimo';
+    fetchBreed(eskimo);
+  }
+});
+
+const fetchBreed = async(breed) => {
+try {
+  const url = `https://dog.ceo/api/breed/${breed}/images/random`
+  const request = await fetch(url)
+  const result = await request.json()
+  console.log(result, 'fetch breed')
+} catch (error) {
+  
+}
+};
