@@ -75,3 +75,9 @@ const deleteCard = async(userProfileCard, index) =>{
   userProfileCard.remove()
   await fetchAndShowProfile(index)
 }
+
+const africanBtn = document.querySelector('#african');
+const beagleBtn = document.querySelector('#beagle');
+const chowBtn = document.querySelector('#chow');
+const dalmatianBtn = document.querySelector('#dalmatian');
+const eskimoBtn = document.querySelector('#eskimo');
