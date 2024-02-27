@@ -43,11 +43,16 @@ function profileCard(imgDog, profileUser) {
   const dogImg = `${imgDog.message}`;
   const userName = `${profileUser.name.first} ${profileUser.name.last}`;
   const userAddress = `${profileUser.location.city}, ${profileUser.location.country}`;
-
+  const deleteBtn = document.createElement('button');
+  deleteBtn.innerHTML = 'Delete'
+  deleteBtn.style.backgroundColor = 'red'
   const userProfileCard = document.createElement("div");
-
   userProfileCard.innerHTML = `<img src="${dogImg}"/><h3>Navn : ${userName}</h3><h4>Bosted : ${userAddress}</h4>`;
   profileCardContainer.appendChild(userProfileCard);
+  deleteBtn.addEventListener("click", ()=> {
+    deleteCard(userProfileCard)
+  })
+  userProfileCard.append(deleteBtn)
 }
 
 async function showProfileCards() {
@@ -60,3 +65,9 @@ async function showProfileCards() {
 
 showProfileCards();
 showBtn.onclick = showProfileCards;
+
+// Delete and replace
+const deleteCard = async(userProfileCard) =>{
+  userProfileCard.remove()
+  await fetchAndShowProfile()
+}
