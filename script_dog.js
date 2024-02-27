@@ -14,13 +14,20 @@ async function fetchRandomDogImage() {
 //console.log(fetchRandomDogImage());
 
 //Read Random User Profile
+//Read Random User Profile
 async function fetchRandomUserProfile() {
-  const randomUserProfile = await fetch("https://randomuser.me/api/");
-  let resultRandomUserProfile = await randomUserProfile.json();
-  return resultRandomUserProfile.results[0];
+  try {
+    const randomUserProfile = await fetch("https://randomuser.me/api/");
+    const resultRandomUserProfile = await randomUserProfile.json();
+    return resultRandomUserProfile.results[0];
+  } catch (error) {
+    console.error("Error fetching random user profile:", error);
+  }
 }
 
-//console.log(fetchRandomUserProfile());
+
+console.log(fetchRandomUserProfile());
+
 
 //Read fetch and display profile card
 //promise.all - https://www.geeksforgeeks.org/javascript-promise-all-method/
@@ -32,6 +39,7 @@ async function fetchAndShowProfile(index) {
     ]);
 
     profileCard(imgDog, profileUser, index);
+  
 
     //console.log("Inside fetch and show profile function", imgDog, profileUser, index);
   } catch (error) {
@@ -113,7 +121,7 @@ const getTenBreedImages = async(breed) =>{
     
   }
   console.log(imageUrls, `array with 10 images of ${breed}`)
-  displayImages(imageUrls);
+  displayCard(imageUrls);
   
 }
 
@@ -125,12 +133,10 @@ const fetchBreed = async(breed) => {
     return result.message; // Return the image URL
   } catch (error) {
     console.error("Error fetching breed:", error);
-    return null;
   }
 };
 
-
-function displayImages(imageUrls) {
+const displayCard = (imageUrls) => {
   profileCardContainer.innerHTML = "";
   imageUrls.forEach(url => {
     const img = document.createElement('img');
@@ -138,3 +144,4 @@ function displayImages(imageUrls) {
     profileCardContainer.appendChild(img);
   });
 }
+
