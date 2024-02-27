@@ -80,26 +80,22 @@ const deleteCard = async(userProfileCard, index) =>{
 const africanBtn = document.querySelector('#african');
 const beagleBtn = document.querySelector('#beagle');
 const chowBtn = document.querySelector('#chow');
-const dalmatianBtn = document.querySelector('#dalmatian');
+const dalmatianBtn = document.querySelector('#dingo');
 const eskimoBtn = document.querySelector('#eskimo');
 
 document.addEventListener("click", async (e) =>{
   let breed
   if(e.target === africanBtn){
     breed = 'african';
-    
   }
   if (e.target === beagleBtn) {
     breed = 'beagle';
-    
   }
   if (e.target === chowBtn) {
     breed = 'chow';
-    
   }
   if (e.target === dalmatianBtn) {
-    breed = 'dalmatian';
-    
+    breed = 'dingo';
   }
   if (e.target === eskimoBtn) {
     breed = 'eskimo';
@@ -117,7 +113,7 @@ const getTenBreedImages = async(breed) =>{
     
   }
   console.log(imageUrls, `array with 10 images of ${breed}`)
-  return imageUrls;
+  displayImages(imageUrls);
   
 }
 
@@ -134,6 +130,11 @@ const fetchBreed = async(breed) => {
 };
 
 
-const displayImages = () => {
-
+function displayImages(imageUrls) {
+  profileCardContainer.innerHTML = "";
+  imageUrls.forEach(url => {
+    const img = document.createElement('img');
+    img.src = url;
+    profileCardContainer.appendChild(img);
+  });
 }
