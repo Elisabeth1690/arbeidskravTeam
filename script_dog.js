@@ -101,20 +101,21 @@ document.addEventListener("click", async (e) => {
   if (e.target === eskimoBtn) {
     breed = "eskimo";
   }
-  if (breed) {
-    await getTenBreedImages(breed);
+  if(breed) {
+    await getTenBreedImagesUserPairs(breed)
   }
 });
 
-const getTenBreedImages = async (breed) => {
-  const imageUrls = [];
-  for (let i = 0; i < 10; i++) {
+const getTenBreedImagesUserPairs = async(breed) =>{
+  const imageUserPairs = [];
+  for (let i = 0; i < 10; i++){
     const imageUrl = await fetchBreed(breed);
-    imageUrls.push(imageUrl);
+    const profile = await fetchRandomUserProfile();
+    imageUserPairs.push({ imageUrl, profile });
   }
-  console.log(imageUrls, `array with 10 images of ${breed}`);
-  displayCard(imageUrls);
-};
+  displayCard(imageUserPairs);
+}
+
 
 const fetchBreed = async (breed) => {
   try {
@@ -127,11 +128,20 @@ const fetchBreed = async (breed) => {
   }
 };
 
-const displayCard = (imageUrls) => {
+const displayCard = (imageUserPairs) => {
   profileCardContainer.innerHTML = "";
-  imageUrls.forEach((url) => {
-    const img = document.createElement("img");
-    img.src = url;
-    profileCardContainer.appendChild(img);
+  imageUserPairs.forEach(pair => {
+    const img = document.createElement('img');
+    img.src = pair.imageUrl;
+    const cardContainer = document.createElement('div');
+    const userProfile = document.createElement('div');
+    const userName = document.createElement('h3');
+    const userAddress = document.createElement('h4');
+
+    userName.innerHTML = `Name: ${pair.profile.name.first} ${pair.profile.name.last}`;
+    userAddress.innerHTML = `Location: ${pair.profile.location.city}, ${pair.profile.location.country}`;
+    userProfile.append(userName, userAddress)
+    cardContainer.append(img, userProfile)
+    profileCardContainer.appendChild(cardContainer);
   });
-};
+}
