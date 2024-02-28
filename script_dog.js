@@ -48,7 +48,6 @@ function profileCard(imgDog, profileUser, index) {
   const dogImg = `${imgDog.message}`;
   const userName = `${profileUser.name.first} ${profileUser.name.last}`;
   const userAddress = `${profileUser.location.city}, ${profileUser.location.country}`;
-
   const deleteBtn = document.createElement('button')
   deleteBtn.innerHTML = 'Delete'
   deleteBtn.style.backgroundColor = 'red'
@@ -104,21 +103,20 @@ document.addEventListener("click", async (e) =>{
     breed = 'eskimo';
   }
   if(breed) {
-    await getTenBreedImages(breed)
+    await getTenBreedImagesUserPairs(breed)
   }
 });
 
-const getTenBreedImages = async(breed) =>{
-  const imageUrls = [];
+const getTenBreedImagesUserPairs = async(breed) =>{
+  const imageUserPairs = [];
   for (let i = 0; i < 10; i++){
     const imageUrl = await fetchBreed(breed);
-    imageUrls.push(imageUrl);
-    
+    const profile = await fetchRandomUserProfile();
+    imageUserPairs.push({ imageUrl, profile });
   }
-  console.log(imageUrls, `array with 10 images of ${breed}`)
-  displayCard(imageUrls);
-  
+  displayCard(imageUserPairs);
 }
+
 
 const fetchBreed = async(breed) => {
   try {
@@ -131,12 +129,21 @@ const fetchBreed = async(breed) => {
   }
 };
 
-const displayCard = (imageUrls, profile) => {
+const displayCard = (imageUserPairs) => {
   profileCardContainer.innerHTML = "";
-  imageUrls.forEach(url => {
+  imageUserPairs.forEach(pair => {
     const img = document.createElement('img');
-    img.src = url;
-    profileCardContainer.appendChild(img);
+    img.src = pair.imageUrl;
+    const userProfile = document.createElement('div');
+    const userName = document.createElement('h3');
+    userName.textContent = `Name: ${pair.profile.name.first} ${pair.profile.name.last}`;
+    const userAddress = document.createElement('h4');
+    userAddress.textContent = `Location: ${pair.profile.location.city}, ${pair.profile.location.country}`;
+    userProfile.appendChild(userName);
+    userProfile.appendChild(userAddress);
+    const cardContainer = document.createElement('div');
+    cardContainer.appendChild(img);
+    cardContainer.appendChild(userProfile);
+    profileCardContainer.appendChild(cardContainer);
   });
 }
-
