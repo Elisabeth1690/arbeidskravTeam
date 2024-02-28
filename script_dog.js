@@ -134,16 +134,15 @@ const displayCard = (imageUserPairs) => {
   imageUserPairs.forEach(pair => {
     const img = document.createElement('img');
     img.src = pair.imageUrl;
+    const cardContainer = document.createElement('div');
     const userProfile = document.createElement('div');
     const userName = document.createElement('h3');
-    userName.textContent = `Name: ${pair.profile.name.first} ${pair.profile.name.last}`;
     const userAddress = document.createElement('h4');
-    userAddress.textContent = `Location: ${pair.profile.location.city}, ${pair.profile.location.country}`;
-    userProfile.appendChild(userName);
-    userProfile.appendChild(userAddress);
-    const cardContainer = document.createElement('div');
-    cardContainer.appendChild(img);
-    cardContainer.appendChild(userProfile);
+
+    userName.innerHTML = `Name: ${pair.profile.name.first} ${pair.profile.name.last}`;
+    userAddress.innerHTML = `Location: ${pair.profile.location.city}, ${pair.profile.location.country}`;
+    userProfile.append(userName, userAddress)
+    cardContainer.append(img, userProfile)
     profileCardContainer.appendChild(cardContainer);
   });
 }
