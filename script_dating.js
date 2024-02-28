@@ -6,7 +6,7 @@ const femaleBtn = document.getElementById("female-Btn");
 const maleBtn = document.getElementById("male-Btn");
 const femaleMaleBtn = document.getElementById("female-Male-Btn");
 
-rightBtn.onclick = decrementCounter; //legg til function om å bytte bilde og lagre dette i et array
+rightBtn.addEventListener("click", decrementCounter); //legg til function om å bytte bilde og lagre dette i et array
 leftBtn.onclick = decrementCounter; //legg til function om å bytte bilde og kaste dette
 
 let userCounter = 10;
@@ -19,7 +19,7 @@ window.onload = async () => {
 };
 
 document.addEventListener("keydown", async function (countDown) {
-  if (countDown.code === "ArrowRight" && countDown.target === femaleBtn) {
+  if (countDown.code === "ArrowRight") {
     decrementCounter();
     femaleCard();
 
@@ -81,13 +81,15 @@ async function display() {
     showUserCard(singleCard);
   }
 }
-
 async function femaleCard() {
-  let femaleCardFetch = await fetchRandomUser();
-
-  if (femaleCardFetch.gender === "female") {
-    let female = femaleCardFetch;
-    showUserCard(female);
+  try {
+    let femaleCardFetch = await fetchRandomUser();
+    if (femaleCardFetch.gender === "female") {
+      console.log("inne i femaleCard", femaleCardFetch);
+      showUserCard(femaleCardFetch);
+    }
+  } catch {
+    console.error("Ops klarte ikke å laste ned hogwarts staff", error);
   }
 }
 async function maleCard() {
