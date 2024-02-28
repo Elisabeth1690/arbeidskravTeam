@@ -3,10 +3,9 @@
   padding: 0;
 }
 
-body,
-html {
-  width: 100%;
+body {
   background-color: rgb(242, 210, 159);
+  width: 100%;
 }
 
 .container {
@@ -32,6 +31,16 @@ button {
   width: 100px;
   height: 40px;
   margin: 10px;
+}
+#female-Btn {
+  background-color: red;
+}
+#male-Btn {
+  background-color: rgb(255, 37, 8);
+}
+
+#female-Male-Btn {
+  background-color: rgb(0, 154, 23);
 }
 #left-Btn {
   background-color: rgb(255, 37, 8);

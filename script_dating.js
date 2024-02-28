@@ -2,6 +2,9 @@ const leftBtn = document.getElementById("left-Btn");
 const rightBtn = document.getElementById("right-Btn");
 const swipsTxtRewrite = document.getElementById("swipes-Txt");
 const cardList = document.getElementById("card-list");
+const femaleBtn = document.getElementById("female-Btn");
+const maleBtn = document.getElementById("male-Btn");
+const femaleMaleBtn = document.getElementById("female-Male-Btn");
 
 rightBtn.onclick = decrementCounter; //legg til function om å bytte bilde og lagre dette i et array
 leftBtn.onclick = decrementCounter; //legg til function om å bytte bilde og kaste dette
@@ -16,20 +19,31 @@ window.onload = async () => {
 };
 
 document.addEventListener("keydown", async function (countDown) {
-  if (countDown.code === "ArrowRight") {
+  if (countDown.code === "ArrowRight" && countDown.target === femaleBtn) {
     decrementCounter();
+    femaleCard();
+
     //NY function om å bytte bilde og lagre dette i et array
-    const findCard = cards.some(
+
+    /*const findCard = cards.some(
       (item) => item.id.value === singleCard.id.value
     );
     if (!findCard) {
       cards.push(singleCard);
-    }
+      console.log(singleCard);
+    }*/
+  }
+  if (countDown.code === "ArrowRight" && countDown.target === maleBtn) {
+    decrementCounter();
+    maleCard();
+  }
+  if (countDown.code === "ArrowRight" && countDown.target === femaleMaleBtn) {
+    decrementCounter();
+    showUserCard();
   }
   if (countDown.code === "ArrowLeft") {
     decrementCounter();
 
-    await display();
     //Ny function om å bytte bilde og kaste dette
   }
 });
@@ -68,6 +82,23 @@ async function display() {
   }
 }
 
+async function femaleCard() {
+  let femaleCardFetch = await fetchRandomUser();
+
+  if (femaleCardFetch.gender === "female") {
+    let female = femaleCardFetch;
+    showUserCard(female);
+  }
+}
+async function maleCard() {
+  let maleCardfetch = await fetchRandomUser();
+
+  if (maleCardfetch.gender === "male") {
+    let male = maleCardfetch;
+    showUserCard(male);
+  }
+}
+
 function showUserCard(cardInfo) {
   const name = cardInfo.name;
   const gender = cardInfo.gender;
@@ -95,3 +126,24 @@ function showUserCard(cardInfo) {
 
   cardList.innerHTML = card;
 }
+
+document.addEventListener("click", async (e) => {
+  if (e.target === femaleBtn) {
+    femaleBtn.style.backgroundColor = "rgb(0, 154, 23)";
+    maleBtn.style.backgroundColor = "rgb(255, 37, 8)";
+    femaleMaleBtn.style.backgroundColor = "rgb(255, 37, 8)";
+    femaleCard();
+  }
+  if (e.target === maleBtn) {
+    femaleBtn.style.backgroundColor = "rgb(255, 37, 8)";
+    maleBtn.style.backgroundColor = "rgb(0, 154, 23)";
+    femaleMaleBtn.style.backgroundColor = "rgb(255, 37, 8)";
+    maleCard();
+  }
+  if (e.target === femaleMaleBtn) {
+    femaleBtn.style.backgroundColor = "rgb(255, 37, 8)";
+    maleBtn.style.backgroundColor = "rgb(255, 37, 8)";
+    femaleMaleBtn.style.backgroundColor = "rgb(0, 154, 23)";
+    display();
+  }
+});
