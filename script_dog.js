@@ -51,8 +51,11 @@ function profileCard(imgDog, profileUser, index) {
   const deleteBtn = document.createElement("button");
   deleteBtn.innerHTML = "Delete";
   deleteBtn.style.backgroundColor = "red";
+
   const userProfileCard = document.createElement("div");
+  userProfileCard.className = "profile-card";
   userProfileCard.innerHTML = `<img src="${dogImg}"/><h3>Navn : ${userName}</h3><h4>Bosted : ${userAddress}</h4>`;
+
   const existingCard = profileCardContainer.children[index];
   profileCardContainer.insertBefore(userProfileCard, existingCard);
   userProfileCard.appendChild(deleteBtn);

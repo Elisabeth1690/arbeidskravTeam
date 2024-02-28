@@ -14,7 +14,7 @@ header {
 img {
   display: block;
   width: 200px;
-  height: auto;
+  height: 200px;
 }
 
 .showBtn {
@@ -36,6 +36,14 @@ img {
   column-gap: 20px;
   align-content: flex-start;
   flex-wrap: wrap;
+}
+
+.profile-card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  max-width: 200px;
+  margin: auto;
+  text-align: left;
+  align-items: center;
 }
 
 button {
