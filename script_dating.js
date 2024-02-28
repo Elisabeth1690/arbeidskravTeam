@@ -19,28 +19,29 @@ window.onload = async () => {
 };
 
 document.addEventListener("keydown", async function (countDown) {
-  if (countDown.code === "ArrowRight") {
+  if (countDown.code === "ArrowRight" && showFemale === "right") {
     decrementCounter();
     femaleCard();
+  }
+  if (countDown.code === "ArrowRight" && showMale === "right") {
+    decrementCounter();
+    maleCard();
+  }
+  if (countDown.code === "ArrowRight" && showFemaleMale === "right") {
+    decrementCounter();
+    display();
+  }
 
-    //NY function om å bytte bilde og lagre dette i et array
+  //NY function om å bytte bilde og lagre dette i et array
 
-    /*const findCard = cards.some(
+  /*const findCard = cards.some(
       (item) => item.id.value === singleCard.id.value
     );
     if (!findCard) {
       cards.push(singleCard);
       console.log(singleCard);
     }*/
-  }
-  if (countDown.code === "ArrowRight" && countDown.target === maleBtn) {
-    decrementCounter();
-    maleCard();
-  }
-  if (countDown.code === "ArrowRight" && countDown.target === femaleMaleBtn) {
-    decrementCounter();
-    showUserCard();
-  }
+
   if (countDown.code === "ArrowLeft") {
     decrementCounter();
 
@@ -102,6 +103,7 @@ async function maleCard() {
 }
 
 function showUserCard(cardInfo) {
+  console.log("inne i showUserCard", showUserCard);
   const name = cardInfo.name;
   const gender = cardInfo.gender;
   const imageUrl = cardInfo.picture.large;
@@ -128,24 +130,36 @@ function showUserCard(cardInfo) {
 
   cardList.innerHTML = card;
 }
+let showFemale = "";
+let showMale = "";
+let showFemaleMale = "";
 
 document.addEventListener("click", async (e) => {
   if (e.target === femaleBtn) {
     femaleBtn.style.backgroundColor = "rgb(0, 154, 23)";
     maleBtn.style.backgroundColor = "rgb(255, 37, 8)";
     femaleMaleBtn.style.backgroundColor = "rgb(255, 37, 8)";
+    showFemale = "right";
+    showMale = "wrong";
+    showFemaleMale = "wrong";
     femaleCard();
   }
   if (e.target === maleBtn) {
     femaleBtn.style.backgroundColor = "rgb(255, 37, 8)";
     maleBtn.style.backgroundColor = "rgb(0, 154, 23)";
     femaleMaleBtn.style.backgroundColor = "rgb(255, 37, 8)";
+    showFemale = "wrong";
+    showMale = "right";
+    showFemaleMale = "wrong";
     maleCard();
   }
   if (e.target === femaleMaleBtn) {
     femaleBtn.style.backgroundColor = "rgb(255, 37, 8)";
     maleBtn.style.backgroundColor = "rgb(255, 37, 8)";
     femaleMaleBtn.style.backgroundColor = "rgb(0, 154, 23)";
+    showFemale = "wrong";
+    showMale = "wrong";
+    showFemaleMale = "right";
     display();
   }
 });
