@@ -2,34 +2,54 @@ const leftBtn = document.getElementById("left-Btn");
 const rightBtn = document.getElementById("right-Btn");
 const swipsTxtRewrite = document.getElementById("swipes-Txt");
 const cardList = document.getElementById("card-list");
+const savedContainer = document.getElementById("saved-Container");
+const femaleBtn = document.getElementById("female-Btn");
+const maleBtn = document.getElementById("male-Btn");
+const femaleMaleBtn = document.getElementById("female-Male-Btn");
 
-rightBtn.onclick = decrementCounter; //legg til function om å bytte bilde og lagre dette i et array
+rightBtn.addEventListener("click", decrementCounter); //legg til function om å bytte bilde og lagre dette i et array
 leftBtn.onclick = decrementCounter; //legg til function om å bytte bilde og kaste dette
 
 let userCounter = 10;
 
 let singleCard = {};
+let femaleCardsFetch = {};
+let maleCardfetch = {};
+
 const cards = [];
 
 window.onload = async () => {
   await display();
 };
 
-document.addEventListener("keydown", async function (countDown) {
-  if (countDown.code === "ArrowRight") {
+document.addEventListener("keyup", async function (countDown) {
+  if (countDown.code === "ArrowRight" && showFemale === "right") {
+    rightBtn.addEventListener("click", decrementCounter, femaleCard);
     decrementCounter();
-    //NY function om å bytte bilde og lagre dette i et array
-    const findCard = cards.some(
+    femaleCard();
+  }
+  if (countDown.code === "ArrowRight" && showMale === "right") {
+    decrementCounter();
+    maleCard();
+  }
+  if (countDown.code === "ArrowRight" && showFemaleMale === "right") {
+    decrementCounter();
+    display();
+  }
+
+  //NY function om å bytte bilde og lagre dette i et array
+
+  /*const findCard = cards.some(
       (item) => item.id.value === singleCard.id.value
     );
     if (!findCard) {
       cards.push(singleCard);
-    }
-  }
+      console.log(singleCard);
+    }*/
+
   if (countDown.code === "ArrowLeft") {
     decrementCounter();
 
-    await display();
     //Ny function om å bytte bilde og kaste dette
   }
 });
@@ -68,7 +88,26 @@ async function display() {
   }
 }
 
+async function femaleCard() {
+  femaleCardsFetch = await fetchRandomUser();
+  if (femaleCardsFetch.gender === "female") {
+    showUserCard(femaleCardsFetch);
+  } else {
+    femaleCard();
+  }
+}
+async function maleCard() {
+  let maleCardfetch = await fetchRandomUser();
+
+  if (maleCardfetch.gender === "male") {
+    showUserCard(maleCardfetch);
+  } else {
+    maleCard;
+  }
+}
+
 function showUserCard(cardInfo) {
+  console.log("inne i showUserCard", showUserCard);
   const name = cardInfo.name;
   const gender = cardInfo.gender;
   const imageUrl = cardInfo.picture.large;
@@ -95,3 +134,36 @@ function showUserCard(cardInfo) {
 
   cardList.innerHTML = card;
 }
+let showFemale = "";
+let showMale = "";
+let showFemaleMale = "";
+
+document.addEventListener("click", async (e) => {
+  if (e.target === femaleBtn) {
+    femaleBtn.style.backgroundColor = "rgb(0, 154, 23)";
+    maleBtn.style.backgroundColor = "rgb(255, 37, 8)";
+    femaleMaleBtn.style.backgroundColor = "rgb(255, 37, 8)";
+    showFemale = "right";
+    showMale = "wrong";
+    showFemaleMale = "wrong";
+    femaleCard();
+  }
+  if (e.target === maleBtn) {
+    femaleBtn.style.backgroundColor = "rgb(255, 37, 8)";
+    maleBtn.style.backgroundColor = "rgb(0, 154, 23)";
+    femaleMaleBtn.style.backgroundColor = "rgb(255, 37, 8)";
+    showFemale = "wrong";
+    showMale = "right";
+    showFemaleMale = "wrong";
+    maleCard();
+  }
+  if (e.target === femaleMaleBtn) {
+    femaleBtn.style.backgroundColor = "rgb(255, 37, 8)";
+    maleBtn.style.backgroundColor = "rgb(255, 37, 8)";
+    femaleMaleBtn.style.backgroundColor = "rgb(0, 154, 23)";
+    showFemale = "wrong";
+    showMale = "wrong";
+    showFemaleMale = "right";
+    display();
+  }
+});
