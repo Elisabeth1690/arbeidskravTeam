@@ -2,6 +2,7 @@ const leftBtn = document.getElementById("left-Btn");
 const rightBtn = document.getElementById("right-Btn");
 const swipsTxtRewrite = document.getElementById("swipes-Txt");
 const cardList = document.getElementById("card-list");
+const savedContainer = document.getElementById("saved-Container");
 const femaleBtn = document.getElementById("female-Btn");
 const maleBtn = document.getElementById("male-Btn");
 const femaleMaleBtn = document.getElementById("female-Male-Btn");
@@ -12,14 +13,18 @@ leftBtn.onclick = decrementCounter; //legg til function om å bytte bilde og kas
 let userCounter = 10;
 
 let singleCard = {};
+let femaleCardsFetch = {};
+let maleCardfetch = {};
+
 const cards = [];
 
 window.onload = async () => {
   await display();
 };
 
-document.addEventListener("keydown", async function (countDown) {
+document.addEventListener("keyup", async function (countDown) {
   if (countDown.code === "ArrowRight" && showFemale === "right") {
+    rightBtn.addEventListener("click", decrementCounter, femaleCard);
     decrementCounter();
     femaleCard();
   }
@@ -82,23 +87,22 @@ async function display() {
     showUserCard(singleCard);
   }
 }
+
 async function femaleCard() {
-  try {
-    let femaleCardFetch = await fetchRandomUser();
-    if (femaleCardFetch.gender === "female") {
-      console.log("inne i femaleCard", femaleCardFetch);
-      showUserCard(femaleCardFetch);
-    }
-  } catch {
-    console.error("Ops klarte ikke å laste ned hogwarts staff", error);
+  femaleCardsFetch = await fetchRandomUser();
+  if (femaleCardsFetch.gender === "female") {
+    showUserCard(femaleCardsFetch);
+  } else {
+    femaleCard();
   }
 }
 async function maleCard() {
   let maleCardfetch = await fetchRandomUser();
 
   if (maleCardfetch.gender === "male") {
-    let male = maleCardfetch;
-    showUserCard(male);
+    showUserCard(maleCardfetch);
+  } else {
+    maleCard;
   }
 }
 
