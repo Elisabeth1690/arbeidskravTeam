@@ -131,7 +131,7 @@ const fetchBreed = async(breed) => {
   }
 };
 
-const displayCard = (imageUrls) => {
+const displayCard = (imageUrls, profile) => {
   profileCardContainer.innerHTML = "";
   imageUrls.forEach(url => {
     const img = document.createElement('img');
