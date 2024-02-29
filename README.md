@@ -29,6 +29,8 @@ Oppgaver
 1. Dating-app
 Du skal bruke randomUser API’et for å lage en dating-app. Når brukeren går inn på
 nettsiden skal brukeren se:
+FULLFØRT ---   Faisal
+
 - En score over brukerens antall “swipes”/liker-klikk. Brukeren starter med å ha
 10 swipes/liker-klikk, og det vil bli trukket -1 hver gang brukeren
 “swiper”/velger ja eller nei på en bruker.
