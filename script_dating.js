@@ -11,7 +11,7 @@ let userCounter = 10;
 
 let singleCard = {};
 let femaleCardsFetch = {};
-let maleCardfetch = {};
+let maleCardFetch = {};
 
 const cards = [];
 
@@ -108,7 +108,7 @@ async function femaleCard() {
   }
 }
 async function maleCard() {
-  let maleCardFetch = await fetchRandomUser();
+  maleCardFetch = await fetchRandomUser();
 
   if (maleCardFetch.gender === "male") {
     showUserCard(maleCardFetch);
