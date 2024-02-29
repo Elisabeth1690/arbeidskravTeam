@@ -17,6 +17,7 @@ const cards = [];
 
 window.onload = async () => {
   await display();
+  console.log(showFemale, showFemaleMale, showMale);
 };
 //test endring
 document.addEventListener("keyup", async function (countDown) {
@@ -50,15 +51,15 @@ document.addEventListener("keyup", async function (countDown) {
       console.log(singleCard);
     }*/
 
-  if (countDown.code === "ArrowLeft" && showFemale === "wrong") {
+  if (countDown.code === "ArrowLeft" && showFemale === "right") {
     decrementCounter();
     femaleCard();
   }
-  if (countDown.code === "ArrowLeft" && showMale === "wrong") {
+  if (countDown.code === "ArrowLeft" && showMale === "right") {
     decrementCounter();
     maleCard();
   }
-  if (countDown.code === "ArrowLeft" && showFemaleMale === "wrong") {
+  if (countDown.code === "ArrowLeft" && showFemaleMale === "right") {
     decrementCounter();
     display();
   }
@@ -107,10 +108,10 @@ async function femaleCard() {
   }
 }
 async function maleCard() {
-  let maleCardfetch = await fetchRandomUser();
+  let maleCardFetch = await fetchRandomUser();
 
-  if (maleCardfetch.gender === "male") {
-    showUserCard(maleCardfetch);
+  if (maleCardFetch.gender === "male") {
+    showUserCard(maleCardFetch);
   } else {
     maleCard;
   }
@@ -147,7 +148,6 @@ let showFemale = "";
 let showMale = "";
 let showFemaleMale = "";
 
-console.log(showFemale, showFemaleMale, showMale);
 document.addEventListener("click", async (e) => {
   if (e.target === femaleBtn) {
     femaleBtn.style.backgroundColor = "rgb(0, 154, 23)";
@@ -157,6 +157,7 @@ document.addEventListener("click", async (e) => {
     showMale = "wrong";
     showFemaleMale = "wrong";
     femaleCard();
+    console.log(showFemale, showFemaleMale, showMale);
   }
   if (e.target === maleBtn) {
     femaleBtn.style.backgroundColor = "rgb(255, 37, 8)";
@@ -165,6 +166,7 @@ document.addEventListener("click", async (e) => {
     showFemale = "wrong";
     showMale = "right";
     showFemaleMale = "wrong";
+    console.log(showFemale, showFemaleMale, showMale);
     maleCard();
   }
   if (e.target === femaleMaleBtn) {
@@ -174,7 +176,7 @@ document.addEventListener("click", async (e) => {
     showFemale = "wrong";
     showMale = "wrong";
     showFemaleMale = "right";
+    console.log(showFemale, showFemaleMale, showMale);
     display();
   }
 });
- 
