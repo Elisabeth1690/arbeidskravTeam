@@ -105,20 +105,20 @@ app. Når brukeren går inn på nettsiden skal brukeren se:
 
 1. En fremvisning av 10 profilkort. Hvert kort skal inneholde:
 ● Bilde av en tilfeldig hund fra dog API’et, samt bilde, navn og
-bosted til en tilfeldig profil fra randomUser API’et.
-● Slette-knapp for å slette et kort
-● Chatte-knapp
+bosted til en tilfeldig profil fra randomUser API’et. FULLFØRT --- EDUARDO
+● Slette-knapp for å slette et kort. FULLFØRT --- MOHIT
+● Chatte-knapp. FULLFØRT --- EDUARDO
 
 
 
 2. En knapp med “Vis 10 nye kort”. Om denne knappen trykkes på, skal de 10
-forrige kortene forsvinne og byttes ut med 10 nye.
+forrige kortene forsvinne og byttes ut med 10 nye. FULLFØRT --- EDUARDO
 
 
 
 3. Hvert kort skal inneholde en slette-knapp. Kortet skal slettes fra nettsiden hvis
 den blir trykket på, og byttes ut med et nytt. Det skal altså fortsatt være 10
-kort på nettsiden.
+kort på nettsiden. FULLFØRT --- MOHIT
 
 
 
@@ -127,18 +127,18 @@ hunderaser som brukeren kan filtrere etter. Hvis brukeren filtrerer etter
 hunderase, skal kun kortene med disse hunderasene dukke opp på nettsiden.
 Kortene skal inneholde samme informasjon som de andre, bortsett fra
 slette-knapp. Filtrerte kort kan ikke slettes fra listen og det kan være færre
-eller flere enn 10 kort på siden om gangen.
+eller flere enn 10 kort på siden om gangen. FULLFØRT --- MOHIT
 
 
 
 5. Hvis brukeren trykker på chatteknappen skal det åpnes en chatteboks.
 Chatteboksen skal la brukeren skrive inn meldinger til eieren av hunden på
-kortet.
+kortet. FULLFØRT --- EDUARO
 
 
 
 5.1 Chatteboksen fungerer slik:
-- Det kommer opp en hilsen fra eieren av hunden.
+- Det kommer opp en hilsen fra eieren av hunden. FULLFØRT --- EDUARDO
 - Brukeren skal få lov til å sende meldinger som dukker opp i
 boksen. (Input-felt og vise frem verdien i input-feltet).
 - Brukeren kan slette meldinger hen har sendt.
