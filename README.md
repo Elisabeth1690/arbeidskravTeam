@@ -133,7 +133,7 @@ eller flere enn 10 kort på siden om gangen. FULLFØRT --- MOHIT
 
 5. Hvis brukeren trykker på chatteknappen skal det åpnes en chatteboks.
 Chatteboksen skal la brukeren skrive inn meldinger til eieren av hunden på
-kortet. FULLFØRT --- EDUARO
+kortet. FULLFØRT --- EDUARDO
 
 
 
