@@ -49,16 +49,12 @@ function profileCard(imgDog, profileUser, index) {
   const userAddress = `${profileUser.location.city}, ${profileUser.location.country}`;
 
   const deleteBtn = document.createElement("button");
+  deleteBtn.className = "delete-btn";
   deleteBtn.innerHTML = "Delete";
-  deleteBtn.style.backgroundColor = "#e04445";
-  deleteBtn.style.width = "100px";
-  deleteBtn.style.height = "50px";
 
   const chatBtn = document.createElement("button");
+  chatBtn.className = "chat-btn";
   chatBtn.innerHTML = "Chat";
-  chatBtn.style.backgroundColor = "#535dfc";
-  chatBtn.style.width = "100px";
-  chatBtn.style.height = "50px";
 
   const chatBox = document.createElement("div");
   chatBox.className = "chat-box";
