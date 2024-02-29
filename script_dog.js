@@ -1,4 +1,4 @@
-const profileCardContainer = document.querySelector(".profile-card-container");
+const profileCardContainer = document.getElementById("profile-card-container");
 const showBtn = document.getElementById("show-btn");
 
 //Read Random Dog Image
@@ -36,7 +36,6 @@ async function fetchAndShowProfile(index) {
     ]);
 
     profileCard(imgDog, profileUser, index);
-  
 
     //console.log("Inside fetch and show profile function", imgDog, profileUser, index);
   } catch (error) {
@@ -49,19 +48,21 @@ function profileCard(imgDog, profileUser, index) {
   const userName = `${profileUser.name.first} ${profileUser.name.last}`;
   const userAddress = `${profileUser.location.city}, ${profileUser.location.country}`;
 
-  const deleteBtn = document.createElement('button')
-  deleteBtn.innerHTML = 'Delete'
-  deleteBtn.style.backgroundColor = 'red'
+  const deleteBtn = document.createElement("button");
+  deleteBtn.innerHTML = "Delete";
+  deleteBtn.style.backgroundColor = "red";
+
   const userProfileCard = document.createElement("div");
+  userProfileCard.className = "profile-card";
   userProfileCard.innerHTML = `<img src="${dogImg}"/><h3>Navn : ${userName}</h3><h4>Bosted : ${userAddress}</h4>`;
+
   const existingCard = profileCardContainer.children[index];
-  profileCardContainer.insertBefore(userProfileCard, existingCard)
-  userProfileCard.appendChild(deleteBtn)
+  profileCardContainer.insertBefore(userProfileCard, existingCard);
+  userProfileCard.appendChild(deleteBtn);
   //console.log( 'inne i profileCard funksjonen', existingCard)
-  deleteBtn.addEventListener("click", ()=> {
-    deleteCard(userProfileCard, index)
-  })
-  
+  deleteBtn.addEventListener("click", () => {
+    deleteCard(userProfileCard, index);
+  });
 }
 
 async function showProfileCards() {
@@ -75,68 +76,75 @@ showProfileCards();
 showBtn.onclick = showProfileCards;
 
 // Delete and replace
-const deleteCard = async(userProfileCard, index) =>{
-  userProfileCard.remove()
-  await fetchAndShowProfile(index)
-}
+const deleteCard = async (userProfileCard, index) => {
+  userProfileCard.remove();
+  await fetchAndShowProfile(index);
+};
 
-const africanBtn = document.querySelector('#african');
-const beagleBtn = document.querySelector('#beagle');
-const chowBtn = document.querySelector('#chow');
-const dingoBtn = document.querySelector('#dingo');
-const eskimoBtn = document.querySelector('#eskimo');
+const africanBtn = document.querySelector("#african");
+const beagleBtn = document.querySelector("#beagle");
+const chowBtn = document.querySelector("#chow");
+const dingoBtn = document.querySelector("#dingo");
+const eskimoBtn = document.querySelector("#eskimo");
 
-document.addEventListener("click", async (e) =>{
-  let breed
-  if(e.target === africanBtn){
-    breed = 'african';
+document.addEventListener("click", async (e) => {
+  let breed;
+  if (e.target === africanBtn) {
+    breed = "african";
   }
   if (e.target === beagleBtn) {
-    breed = 'beagle';
+    breed = "beagle";
   }
   if (e.target === chowBtn) {
-    breed = 'chow';
+    breed = "chow";
   }
   if (e.target === dingoBtn) {
-    breed = 'dingo';
+    breed = "dingo";
   }
   if (e.target === eskimoBtn) {
-    breed = 'eskimo';
+    breed = "eskimo";
   }
   if(breed) {
-    await getTenBreedImages(breed)
+    await getTenBreedImagesUserPairs(breed)
   }
 });
 
-const getTenBreedImages = async(breed) =>{
-  const imageUrls = [];
+const getTenBreedImagesUserPairs = async(breed) =>{
+  const imageUserPairs = [];
   for (let i = 0; i < 10; i++){
     const imageUrl = await fetchBreed(breed);
-    imageUrls.push(imageUrl);
-    
+    const profile = await fetchRandomUserProfile();
+    imageUserPairs.push({ imageUrl, profile });
   }
-  console.log(imageUrls, `array with 10 images of ${breed}`)
-  displayCard(imageUrls);
-  
+  displayCard(imageUserPairs);
 }
 
-const fetchBreed = async(breed) => {
+
+const fetchBreed = async (breed) => {
   try {
-    const url = `https://dog.ceo/api/breed/${breed}/images/random`
-    const request = await fetch(url)
-    const result = await request.json()
+    const url = `https://dog.ceo/api/breed/${breed}/images/random`;
+    const request = await fetch(url);
+    const result = await request.json();
     return result.message; // Return the image URL
   } catch (error) {
     console.error("Error fetching breed:", error);
   }
 };
 
-const displayCard = (imageUrls) => {
+const displayCard = (imageUserPairs) => {
   profileCardContainer.innerHTML = "";
-  imageUrls.forEach(url => {
+  imageUserPairs.forEach(pair => {
     const img = document.createElement('img');
-    img.src = url;
-    profileCardContainer.appendChild(img);
+    img.src = pair.imageUrl;
+    const cardContainer = document.createElement('div');
+    const userProfile = document.createElement('div');
+    const userName = document.createElement('h3');
+    const userAddress = document.createElement('h4');
+
+    userName.innerHTML = `Name: ${pair.profile.name.first} ${pair.profile.name.last}`;
+    userAddress.innerHTML = `Location: ${pair.profile.location.city}, ${pair.profile.location.country}`;
+    userProfile.append(userName, userAddress)
+    cardContainer.append(img, userProfile)
+    profileCardContainer.appendChild(cardContainer);
   });
 }
-
