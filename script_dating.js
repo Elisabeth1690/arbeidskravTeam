@@ -7,9 +7,6 @@ const femaleBtn = document.getElementById("female-Btn");
 const maleBtn = document.getElementById("male-Btn");
 const femaleMaleBtn = document.getElementById("female-Male-Btn");
 
-rightBtn.addEventListener("click", decrementCounter); //legg til function om å bytte bilde og lagre dette i et array
-leftBtn.onclick = decrementCounter; //legg til function om å bytte bilde og kaste dette
-
 let userCounter = 10;
 
 let singleCard = {};
@@ -24,20 +21,26 @@ window.onload = async () => {
 
 document.addEventListener("keyup", async function (countDown) {
   if (countDown.code === "ArrowRight" && showFemale === "right") {
-    rightBtn.addEventListener("click", decrementCounter, femaleCard);
     decrementCounter();
     femaleCard();
+    //NY function lagrer kortet i et eget array med plass til 10 og viser det fram og legger til slett knapp
+    // functoinen øverst må kanskje lages i 2 seperate?
+    // NY function lagrer kortet i localStorage
   }
   if (countDown.code === "ArrowRight" && showMale === "right") {
     decrementCounter();
     maleCard();
+    //NY function lagrer kortet i et eget array med plass til 10 og viser det fram og legger til slett knapp
+    // functoinen øverst må kanskje lages i 2 seperate?
+    // NY function lagrer kortet i localStorage
   }
   if (countDown.code === "ArrowRight" && showFemaleMale === "right") {
     decrementCounter();
     display();
+    //NY function lagrer kortet i et eget array med plass til 10 og viser det fram og legger til slett knapp
+    // functoinen øverst må kanskje lages i 2 seperate?
+    // NY function lagrer kortet i localStorage
   }
-
-  //NY function om å bytte bilde og lagre dette i et array
 
   /*const findCard = cards.some(
       (item) => item.id.value === singleCard.id.value
@@ -47,10 +50,17 @@ document.addEventListener("keyup", async function (countDown) {
       console.log(singleCard);
     }*/
 
-  if (countDown.code === "ArrowLeft") {
+  if (countDown.code === "ArrowLeft" && showFemale === "wrong") {
     decrementCounter();
-
-    //Ny function om å bytte bilde og kaste dette
+    femaleCard();
+  }
+  if (countDown.code === "ArrowLeft" && showMale === "wrong") {
+    decrementCounter();
+    maleCard();
+  }
+  if (countDown.code === "ArrowLeft" && showFemaleMale === "wrong") {
+    decrementCounter();
+    display();
   }
 });
 
@@ -107,7 +117,6 @@ async function maleCard() {
 }
 
 function showUserCard(cardInfo) {
-  console.log("inne i showUserCard", showUserCard);
   const name = cardInfo.name;
   const gender = cardInfo.gender;
   const imageUrl = cardInfo.picture.large;
@@ -138,6 +147,7 @@ let showFemale = "";
 let showMale = "";
 let showFemaleMale = "";
 
+console.log(showFemale, showFemaleMale, showMale);
 document.addEventListener("click", async (e) => {
   if (e.target === femaleBtn) {
     femaleBtn.style.backgroundColor = "rgb(0, 154, 23)";
