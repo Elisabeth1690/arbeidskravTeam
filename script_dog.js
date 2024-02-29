@@ -50,7 +50,20 @@ function profileCard(imgDog, profileUser, index) {
 
   const deleteBtn = document.createElement("button");
   deleteBtn.innerHTML = "Delete";
-  deleteBtn.style.backgroundColor = "red";
+  deleteBtn.style.backgroundColor = "#e04445";
+  deleteBtn.style.width = "100px";
+  deleteBtn.style.height = "50px";
+
+  const chatBtn = document.createElement("button");
+  chatBtn.innerHTML = "Chat";
+  chatBtn.style.backgroundColor = "#535dfc";
+  chatBtn.style.width = "100px";
+  chatBtn.style.height = "50px";
+
+  const chatBox = document.createElement("div");
+  chatBox.className = "chat-box";
+  chatBox.style.display = "none";
+  chatBox.innerHTML = `<h4>Hi, this is ${userName}!</h4><textarea></textarea><button>Send</button>`;
 
   const userProfileCard = document.createElement("div");
   userProfileCard.className = "profile-card";
@@ -59,10 +72,24 @@ function profileCard(imgDog, profileUser, index) {
   const existingCard = profileCardContainer.children[index];
   profileCardContainer.insertBefore(userProfileCard, existingCard);
   userProfileCard.appendChild(deleteBtn);
+  userProfileCard.appendChild(chatBtn);
+  userProfileCard.appendChild(chatBox);
   //console.log( 'inne i profileCard funksjonen', existingCard)
   deleteBtn.addEventListener("click", () => {
     deleteCard(userProfileCard, index);
   });
+
+  chatBtn.addEventListener("click", () => {
+    showChatBox(chatBox, index);
+  });
+}
+
+function showChatBox(chatBox) {
+  if (chatBox.style.display === "none") {
+    chatBox.style.display = "block";
+  } else {
+    chatBox.style.display = "none";
+  }
 }
 
 async function showProfileCards() {
@@ -104,21 +131,20 @@ document.addEventListener("click", async (e) => {
   if (e.target === eskimoBtn) {
     breed = "eskimo";
   }
-  if(breed) {
-    await getTenBreedImagesUserPairs(breed)
+  if (breed) {
+    await getTenBreedImagesUserPairs(breed);
   }
 });
 
-const getTenBreedImagesUserPairs = async(breed) =>{
+const getTenBreedImagesUserPairs = async (breed) => {
   const imageUserPairs = [];
-  for (let i = 0; i < 10; i++){
+  for (let i = 0; i < 10; i++) {
     const imageUrl = await fetchBreed(breed);
     const profile = await fetchRandomUserProfile();
     imageUserPairs.push({ imageUrl, profile });
   }
   displayCard(imageUserPairs);
-}
-
+};
 
 const fetchBreed = async (breed) => {
   try {
@@ -133,18 +159,19 @@ const fetchBreed = async (breed) => {
 
 const displayCard = (imageUserPairs) => {
   profileCardContainer.innerHTML = "";
-  imageUserPairs.forEach(pair => {
-    const img = document.createElement('img');
+  imageUserPairs.forEach((pair) => {
+    const img = document.createElement("img");
     img.src = pair.imageUrl;
-    const cardContainer = document.createElement('div');
-    const userProfile = document.createElement('div');
-    const userName = document.createElement('h3');
-    const userAddress = document.createElement('h4');
+    const cardContainer = document.createElement("div");
+    const userProfile = document.createElement("div");
+    cardContainer.className = "profile-card";
+    const userName = document.createElement("h3");
+    const userAddress = document.createElement("h4");
 
     userName.innerHTML = `Name: ${pair.profile.name.first} ${pair.profile.name.last}`;
     userAddress.innerHTML = `Location: ${pair.profile.location.city}, ${pair.profile.location.country}`;
-    userProfile.append(userName, userAddress)
-    cardContainer.append(img, userProfile)
+    userProfile.append(userName, userAddress);
+    cardContainer.append(img, userProfile);
     profileCardContainer.appendChild(cardContainer);
   });
-}
+};
