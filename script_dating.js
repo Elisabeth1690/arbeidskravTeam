@@ -7,42 +7,35 @@ const femaleBtn = document.getElementById("female-Btn");
 const maleBtn = document.getElementById("male-Btn");
 const femaleMaleBtn = document.getElementById("female-Male-Btn");
 
-let userCounter = 10;
-
-let singleCard = {};
-let femaleCardsFetch = {};
-let maleCardFetch = {};
+//legg til function om å bytte bilde og lagre dette i et array
+rightBtn.addEventListener("click", decrementCounter);
+//legg til function om å bytte bilde og kaste dette
+leftBtn.onclick = decrementCounter;
 
 const cards = [];
+let userCounter = 10;
+let singleCard = {};
+let allowGenderToShow = undefined;
 
 window.onload = async () => {
+  femaleBtn.style.backgroundColor = "rgb(255, 37, 8)";
+  maleBtn.style.backgroundColor = "rgb(255, 37, 8)";
+  femaleMaleBtn.style.backgroundColor = "rgb(0, 154, 23)";
+
   await display();
-  console.log(showFemale, showFemaleMale, showMale);
 };
-//test endring
+
 document.addEventListener("keyup", async function (countDown) {
-  if (countDown.code === "ArrowRight" && showFemale === "right") {
+  if (countDown.code === "ArrowRight") {
     decrementCounter();
-    femaleCard();
-    //NY function lagrer kortet i et eget array med plass til 10 og viser det fram og legger til slett knapp
-    // functoinen øverst må kanskje lages i 2 seperate?
-    // NY function lagrer kortet i localStorage
-  }
-  if (countDown.code === "ArrowRight" && showMale === "right") {
-    decrementCounter();
-    maleCard();
-    //NY function lagrer kortet i et eget array med plass til 10 og viser det fram og legger til slett knapp
-    // functoinen øverst må kanskje lages i 2 seperate?
-    // NY function lagrer kortet i localStorage
-  }
-  if (countDown.code === "ArrowRight" && showFemaleMale === "right") {
-    decrementCounter();
-    display();
-    //NY function lagrer kortet i et eget array med plass til 10 og viser det fram og legger til slett knapp
-    // functoinen øverst må kanskje lages i 2 seperate?
-    // NY function lagrer kortet i localStorage
   }
 
+  if (countDown.code === "ArrowLeft") {
+    decrementCounter();
+    await display();
+  }
+
+  //NY function om å bytte bilde og lagre dette i et array
   /*const findCard = cards.some(
       (item) => item.id.value === singleCard.id.value
     );
@@ -50,27 +43,16 @@ document.addEventListener("keyup", async function (countDown) {
       cards.push(singleCard);
       console.log(singleCard);
     }*/
-
-  if (countDown.code === "ArrowLeft" && showFemale === "right") {
-    decrementCounter();
-    femaleCard();
-  }
-  if (countDown.code === "ArrowLeft" && showMale === "right") {
-    decrementCounter();
-    maleCard();
-  }
-  if (countDown.code === "ArrowLeft" && showFemaleMale === "right") {
-    decrementCounter();
-    display();
-  }
 });
 
 function decrementCounter() {
   userCounter--;
-  swipsTxtRewrite.innerHTML = `<p>Du har ${userCounter} Swipes igjen og bruke</p>`;
-  if (userCounter === 0) {
+
+  if (userCounter <= -1) {
     resetCounter();
   }
+
+  swipsTxtRewrite.innerHTML = `<p>Du har ${userCounter} Swipes igjen og bruke</p>`;
 }
 
 function resetCounter() {
@@ -84,40 +66,24 @@ function resetCounter() {
   }
 }
 
-async function fetchRandomUser() {
-  const res = await fetch(`https://randomuser.me/api`);
+async function fetchRandomUser(gender = undefined) {
+  const res = await fetch(
+    `https://randomuser.me/api?` + new URLSearchParams({ gender })
+  );
   const data = await res.json();
-
   return data.results[0];
 }
 
 async function display() {
-  singleCard = await fetchRandomUser();
+  singleCard = await fetchRandomUser(allowGenderToShow);
 
   if (singleCard.email) {
     showUserCard(singleCard);
   }
 }
 
-async function femaleCard() {
-  femaleCardsFetch = await fetchRandomUser();
-  if (femaleCardsFetch.gender === "female") {
-    showUserCard(femaleCardsFetch);
-  } else {
-    femaleCard();
-  }
-}
-async function maleCard() {
-  maleCardFetch = await fetchRandomUser();
-
-  if (maleCardFetch.gender === "male") {
-    showUserCard(maleCardFetch);
-  } else {
-    maleCard;
-  }
-}
-
 function showUserCard(cardInfo) {
+  console.log("inne i showUserCard", showUserCard);
   const name = cardInfo.name;
   const gender = cardInfo.gender;
   const imageUrl = cardInfo.picture.large;
@@ -144,39 +110,30 @@ function showUserCard(cardInfo) {
 
   cardList.innerHTML = card;
 }
-let showFemale = "";
-let showMale = "";
-let showFemaleMale = "";
 
 document.addEventListener("click", async (e) => {
   if (e.target === femaleBtn) {
     femaleBtn.style.backgroundColor = "rgb(0, 154, 23)";
     maleBtn.style.backgroundColor = "rgb(255, 37, 8)";
     femaleMaleBtn.style.backgroundColor = "rgb(255, 37, 8)";
-    showFemale = "right";
-    showMale = "wrong";
-    showFemaleMale = "wrong";
-    femaleCard();
-    console.log(showFemale, showFemaleMale, showMale);
+
+    allowGenderToShow = "female";
+    display();
   }
   if (e.target === maleBtn) {
     femaleBtn.style.backgroundColor = "rgb(255, 37, 8)";
     maleBtn.style.backgroundColor = "rgb(0, 154, 23)";
     femaleMaleBtn.style.backgroundColor = "rgb(255, 37, 8)";
-    showFemale = "wrong";
-    showMale = "right";
-    showFemaleMale = "wrong";
-    console.log(showFemale, showFemaleMale, showMale);
-    maleCard();
+
+    allowGenderToShow = "male";
+    display();
   }
   if (e.target === femaleMaleBtn) {
     femaleBtn.style.backgroundColor = "rgb(255, 37, 8)";
     maleBtn.style.backgroundColor = "rgb(255, 37, 8)";
     femaleMaleBtn.style.backgroundColor = "rgb(0, 154, 23)";
-    showFemale = "wrong";
-    showMale = "wrong";
-    showFemaleMale = "right";
-    console.log(showFemale, showFemaleMale, showMale);
+
+    allowGenderToShow = undefined;
     display();
   }
 });
