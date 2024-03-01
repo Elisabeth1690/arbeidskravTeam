@@ -18,9 +18,13 @@ let singleCard = {};
 let allowGenderToShow = undefined;
 
 window.onload = async () => {
+  femaleBtn.style.backgroundColor = "rgb(255, 37, 8)";
+  maleBtn.style.backgroundColor = "rgb(255, 37, 8)";
+  femaleMaleBtn.style.backgroundColor = "rgb(0, 154, 23)";
+
   await display();
 };
-//test endring
+
 document.addEventListener("keyup", async function (countDown) {
   if (countDown.code === "ArrowRight") {
     decrementCounter();
@@ -43,10 +47,12 @@ document.addEventListener("keyup", async function (countDown) {
 
 function decrementCounter() {
   userCounter--;
-  swipsTxtRewrite.innerHTML = `<p>Du har ${userCounter} Swipes igjen og bruke</p>`;
-  if (userCounter === 0) {
+
+  if (userCounter <= -1) {
     resetCounter();
   }
+
+  swipsTxtRewrite.innerHTML = `<p>Du har ${userCounter} Swipes igjen og bruke</p>`;
 }
 
 function resetCounter() {
@@ -65,9 +71,6 @@ async function fetchRandomUser(gender = undefined) {
     `https://randomuser.me/api?` + new URLSearchParams({ gender })
   );
   const data = await res.json();
-
-  console.log(data.results[0]);
-
   return data.results[0];
 }
 
@@ -80,6 +83,7 @@ async function display() {
 }
 
 function showUserCard(cardInfo) {
+  console.log("inne i showUserCard", showUserCard);
   const name = cardInfo.name;
   const gender = cardInfo.gender;
   const imageUrl = cardInfo.picture.large;
@@ -109,25 +113,25 @@ function showUserCard(cardInfo) {
 
 document.addEventListener("click", async (e) => {
   if (e.target === femaleBtn) {
-    // femaleBtn.style.backgroundColor = "rgb(0, 154, 23)";
-    // maleBtn.style.backgroundColor = "rgb(255, 37, 8)";
-    // femaleMaleBtn.style.backgroundColor = "rgb(255, 37, 8)";
+    femaleBtn.style.backgroundColor = "rgb(0, 154, 23)";
+    maleBtn.style.backgroundColor = "rgb(255, 37, 8)";
+    femaleMaleBtn.style.backgroundColor = "rgb(255, 37, 8)";
 
     allowGenderToShow = "female";
     display();
   }
   if (e.target === maleBtn) {
-    // femaleBtn.style.backgroundColor = "rgb(255, 37, 8)";
-    // maleBtn.style.backgroundColor = "rgb(0, 154, 23)";
-    // femaleMaleBtn.style.backgroundColor = "rgb(255, 37, 8)";
+    femaleBtn.style.backgroundColor = "rgb(255, 37, 8)";
+    maleBtn.style.backgroundColor = "rgb(0, 154, 23)";
+    femaleMaleBtn.style.backgroundColor = "rgb(255, 37, 8)";
 
     allowGenderToShow = "male";
     display();
   }
   if (e.target === femaleMaleBtn) {
-    // femaleBtn.style.backgroundColor = "rgb(255, 37, 8)";
-    // maleBtn.style.backgroundColor = "rgb(255, 37, 8)";
-    // femaleMaleBtn.style.backgroundColor = "rgb(0, 154, 23)";
+    femaleBtn.style.backgroundColor = "rgb(255, 37, 8)";
+    maleBtn.style.backgroundColor = "rgb(255, 37, 8)";
+    femaleMaleBtn.style.backgroundColor = "rgb(0, 154, 23)";
 
     allowGenderToShow = undefined;
     display();
