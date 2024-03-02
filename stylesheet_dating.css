@@ -46,6 +46,11 @@ button {
   grid-template-columns: repeat(auto-fit, 270px);
   gap: 14px;
 }
+#saved-Container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+}
 
 .card.male {
   background-color: #93c5fd;

@@ -129,7 +129,6 @@ document.addEventListener("click", async (e) => {
 
     allowGenderToShow = undefined;
     display();
-    deleteSavedInLocalStorge();
   }
 });
 
@@ -164,12 +163,33 @@ function deleteSavedInLocalStorge() {
 
 FatchSavedCard();
 function FatchSavedCard() {
-  const retiwSavedCard = JSON.parse(localStorage.getItem("Match")) || [];
+  const retrieveSavedCard = JSON.parse(localStorage.getItem("Match")) || [];
   savedContainer.innerHTML = "";
-  for (let i = 0; i <= 10; i++) {
+  retrieveSavedCard.forEach((cardSaved) => {
     const showSavedCard = document.createElement("div");
-    savedContainer.innerHTML = retiwSavedCard;
+    const name = cardSaved.name;
+    const gender = cardSaved.gender;
+    const imageUrl = cardSaved.picture.large;
+    const location = cardSaved.location;
+    const fullName = `${name.title} ${name.first}  ${name.last}`;
+    savedContainer.innerHTML += `
+    <div class="card ${gender}">
+      <div class="card-image">
+        <img
+          src="${imageUrl}"
+          alt="${name.first}"
+        />
+      </div>
+
+      <div class="card-content">
+        <p>Name: <strong>${fullName}</strong></p>
+        <p>Street: <strong>${location.street.name}</strong></p>
+        <p>Street Number: <strong>${location.street.number}</strong></p>
+        <p>State: <strong>${location.state}</strong></p>
+        <p>City: <strong>${location.city}</strong></p>
+      </div>
+    </div>`;
 
     savedContainer.appendChild(showSavedCard);
-  }
+  });
 }
