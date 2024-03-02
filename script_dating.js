@@ -28,6 +28,8 @@ window.onload = async () => {
 document.addEventListener("keyup", async function (countDown) {
   if (countDown.code === "ArrowRight") {
     decrementCounter();
+    await display();
+    savedCard();
   }
 
   if (countDown.code === "ArrowLeft") {
@@ -36,13 +38,6 @@ document.addEventListener("keyup", async function (countDown) {
   }
 
   //NY function om å bytte bilde og lagre dette i et array
-  /*const findCard = cards.some(
-      (item) => item.id.value === singleCard.id.value
-    );
-    if (!findCard) {
-      cards.push(singleCard);
-      console.log(singleCard);
-    }*/
 });
 
 function decrementCounter() {
@@ -83,7 +78,6 @@ async function display() {
 }
 
 function showUserCard(cardInfo) {
-  console.log("inne i showUserCard", showUserCard);
   const name = cardInfo.name;
   const gender = cardInfo.gender;
   const imageUrl = cardInfo.picture.large;
@@ -135,5 +129,47 @@ document.addEventListener("click", async (e) => {
 
     allowGenderToShow = undefined;
     display();
+    deleteSavedInLocalStorge();
   }
 });
+
+function savedCard() {
+  if (cards.length <= 10) {
+    const findCard = cards.some(
+      (item) => item.id.value === singleCard.id.value
+    );
+    if (!findCard) {
+      cards.push(singleCard);
+      console.log(singleCard);
+      savedInLocalStorge(singleCard);
+    }
+  }
+}
+
+function savedInLocalStorge(singleCard) {
+  if (cards.length <= 10) {
+    const savedCardLocal = JSON.parse(localStorage.getItem("Match")) || [];
+    savedCardLocal.push(singleCard);
+    localStorage.setItem("Match", JSON.stringify(savedCardLocal));
+    console.log(cards, "kortene");
+    console.log(savedCardLocal, "inne i localStorage");
+  } else {
+    alert("du kan ikke legge til flere matches for du har slettet minst 1");
+  }
+}
+
+function deleteSavedInLocalStorge() {
+  localStorage.removeItem("Match");
+}
+
+FatchSavedCard();
+function FatchSavedCard() {
+  const retiwSavedCard = JSON.parse(localStorage.getItem("Match")) || [];
+  savedContainer.innerHTML = "";
+  for (let i = 0; i <= 10; i++) {
+    const showSavedCard = document.createElement("div");
+    savedContainer.innerHTML = retiwSavedCard;
+
+    savedContainer.appendChild(showSavedCard);
+  }
+}
