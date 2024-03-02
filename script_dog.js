@@ -101,10 +101,14 @@ function closeChatBox(chatBox) {
   chatBox.style.display = "none";
 }
 
+//textContent returns all elements in the textarea.
 function messageSend(chatBox) {
   const messageArea = chatBox.querySelector("textarea");
   const message = messageArea.value.trim();
   if (message !== "") {
+    const messageSent = document.createElement("div");
+    messageSent.textContent = `You: ${message}`;
+    chatBox.appendChild(messageSent);
     console.log("Sent", message);
     messageArea.value = "";
   }
