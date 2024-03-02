@@ -62,7 +62,7 @@ function profileCard(imgDog, profileUser, index) {
   chatBox.innerHTML = `<h4>Hi, this is ${userName}!</h4>
                        <textarea rows="3"></textarea>
                        <button class="send-btn">Send</button>
-                       <button id="close-btn" class="close-btn">Close</button>`;
+                       <button class="close-btn">Close</button>`;
 
   const userProfileCard = document.createElement("div");
   userProfileCard.className = "profile-card";
@@ -85,6 +85,11 @@ function profileCard(imgDog, profileUser, index) {
   closeBtn.addEventListener("click", () => {
     closeChatBox(chatBox);
   });
+
+  const sendBtn = userProfileCard.querySelector(".send-btn");
+  sendBtn.addEventListener("click", () => {
+    messageSend(chatBox);
+  });
 }
 
 function showChatBox(chatBox) {
@@ -94,6 +99,15 @@ function showChatBox(chatBox) {
 function closeChatBox(chatBox) {
   //console.log("i clicked the close button");
   chatBox.style.display = "none";
+}
+
+function messageSend(chatBox) {
+  const messageArea = chatBox.querySelector("textarea");
+  const message = messageArea.value.trim();
+  if (message !== "") {
+    console.log("Sent", message);
+    messageArea.value = "";
+  }
 }
 
 async function showProfileCards() {
