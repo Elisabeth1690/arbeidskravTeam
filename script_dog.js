@@ -81,7 +81,7 @@ function profileCard(imgDog, profileUser, index) {
     showChatBox(chatBox, index);
   });
 
-  const closeBtn = document.getElementById("close-btn");
+  const closeBtn = userProfileCard.querySelector(".close-btn");
   closeBtn.addEventListener("click", () => {
     closeChatBox(chatBox);
   });
@@ -92,7 +92,7 @@ function showChatBox(chatBox) {
 }
 
 function closeChatBox(chatBox) {
-  console.log("i clicked the close button");
+  //console.log("i clicked the close button");
   chatBox.style.display = "none";
 }
 
