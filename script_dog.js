@@ -106,9 +106,20 @@ function messageSend(chatBox) {
   const messageArea = chatBox.querySelector("textarea");
   const message = messageArea.value.trim();
   if (message !== "") {
-    const messageSent = document.createElement("div");
+    const messageSentContainer = document.createElement("div");
+    const messageSent = document.createElement("span");
     messageSent.textContent = `You: ${message}`;
-    chatBox.appendChild(messageSent);
+
+    const deleteMsgBtn = document.createElement("button");
+    deleteMsgBtn.textContent = "Delete message";
+
+    deleteMsgBtn.addEventListener("click", function () {
+      chatBox.removeChild(messageSentContainer);
+    });
+
+    messageSentContainer.appendChild(messageSent);
+    messageSentContainer.appendChild(deleteMsgBtn);
+    chatBox.appendChild(messageSentContainer);
     console.log("Sent", message);
     messageArea.value = "";
   }
