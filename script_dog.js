@@ -193,3 +193,16 @@ const displayCard = (imageUserPairs) => {
     profileCardContainer.appendChild(cardContainer);
   });
 };
+
+const dogArray = ["Voff voff", "Grrr!", "Mjau??", "Voff!", "Voff voff voff", "WRAFF!!!"];
+
+const dogSays = () => {
+  const randomIndex = Math.floor(Math.random() * dogArray.length);
+  return dogArray[randomIndex];
+}
+
+console.log(dogSays())
+
+const div = document.querySelector('div').addEventListener("click", ()=>{
+  alert(dogSays())
+})
