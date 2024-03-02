@@ -187,14 +187,6 @@ const fetchBreed = async (breed) => {
   }
 };
 
-const dogArray = ["Voff voff", "Grrr!", "Mjau??", "Voff!", "Voff voff voff", "WRAFF!!!"];
-
-const dogSays = () => {
-  const randomIndex = Math.floor(Math.random() * dogArray.length);
-  return dogArray[randomIndex];
-}
-
-
 const displayCard = (imageUserPairs) => {
   profileCardContainer.innerHTML = "";
   imageUserPairs.forEach((pair) => {
@@ -233,4 +225,9 @@ function showDogChat(dogChat) {
     dogChat.style.display = "none";
   }, 1000); 
 }
+const dogArray = ["Voff voff", "Grrr!", "Mjau??", "Voff!", "Voff voff voff", "WRAFF!!!"];
 
+const dogSays = () => {
+  const randomIndex = Math.floor(Math.random() * dogArray.length);
+  return dogArray[randomIndex];
+}
