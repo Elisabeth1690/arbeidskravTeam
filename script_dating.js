@@ -168,7 +168,10 @@ function FatchSavedCard() {
     const gender = cardSaved.gender;
     const imageUrl = cardSaved.picture.large;
     const location = cardSaved.location;
-    const fullName = `${name.first}  ${name.last}`;
+    let city = location.city;
+    let firstName = name.first;
+    let lastName = name.last;
+    const fullName = `${firstName}  ${lastName}`;
     savedContainer.innerHTML += `
     <div class="card ${gender}">
       <div class="card-image">
@@ -180,10 +183,18 @@ function FatchSavedCard() {
 
       <div class="card-content">
         <p>Name: <strong>${fullName}</strong></p>
-        <p>City: <strong>${location.city}</strong></p>
+        <div class="SavedBtn">
+        <button class="changeBtn firstName">Endre for navn</button>
+        <button class="changeBtn LastName">Endre etternavn</button>
+        </div>
+        <p>City: <strong>${city}</strong></p>
+        <button class="changeBtn City">endre by</button>
       </div>
     </div>
     `;
+    const firstNameBtn = document.getElementsByClassName("firstName");
+    const lastNameBtn = document.getElementsByClassName("LastName");
+    const cityBtn = document.getElementsByClassName("City");
 
     savedContainer.appendChild(showSavedCard);
   });
