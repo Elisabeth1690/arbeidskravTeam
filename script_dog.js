@@ -69,20 +69,24 @@ function profileCard(imgDog, profileUser, index) {
 
   const userProfileCard = document.createElement("div");
   userProfileCard.className = "profile-card";
-  userProfileCard.innerHTML = `<img src="${dogImg}"/><h3>Navn : ${userName}</h3><h4>Bosted : ${userAddress}</h4>`;
+  userProfileCard.innerHTML = `<img src="${dogImg}"/>
+                              <h3>Navn : ${userName}</h3>
+                              <h4>Bosted : ${userAddress}</h4>`;
 
   const existingCard = profileCardContainer.children[index];
   profileCardContainer.insertBefore(userProfileCard, existingCard);
+
   userProfileCard.appendChild(deleteBtn);
   userProfileCard.appendChild(chatBtn);
   userProfileCard.appendChild(chatBox);
   userProfileCard.appendChild(dogChat);
 
   deleteBtn.addEventListener("click", () => {
-    deleteCard(userProfileCard, index);
+    deleteCard(userProfileCard);
   });
+
   chatBtn.addEventListener("click", () => {
-    showChatBox(chatBox, index);
+    showChatBox(chatBox);
   });
 
   const closeBtn = userProfileCard.querySelector(".close-btn");
@@ -130,7 +134,7 @@ function messageSend(chatBox) {
     messageSentContainer.appendChild(messageSent);
     messageSentContainer.appendChild(deleteMsgBtn);
     chatBox.appendChild(messageSentContainer);
-    console.log("Sent", message);
+    //console.log("Sent", message);
     messageArea.value = "";
   }
 }
