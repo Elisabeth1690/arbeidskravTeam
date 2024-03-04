@@ -83,7 +83,7 @@ function showUserCard(cardInfo) {
   const imageUrl = cardInfo.picture.large;
   const location = cardInfo.location;
 
-  const fullName = `${name.title} ${name.first} ${name.last}`;
+  const fullName = `${name.first} ${name.last}`;
   const card = `
     <div class="card ${gender}">
       <div class="card-image">
@@ -95,9 +95,6 @@ function showUserCard(cardInfo) {
 
       <div class="card-content">
         <p>Name: <strong>${fullName}</strong></p>
-        <p>Street: <strong>${location.street.name}</strong></p>
-        <p>Street Number: <strong>${location.street.number}</strong></p>
-        <p>State: <strong>${location.state}</strong></p>
         <p>City: <strong>${location.city}</strong></p>
       </div>
     </div>`;
@@ -171,7 +168,7 @@ function FatchSavedCard() {
     const gender = cardSaved.gender;
     const imageUrl = cardSaved.picture.large;
     const location = cardSaved.location;
-    const fullName = `${name.title} ${name.first}  ${name.last}`;
+    const fullName = `${name.first}  ${name.last}`;
     savedContainer.innerHTML += `
     <div class="card ${gender}">
       <div class="card-image">
@@ -183,12 +180,10 @@ function FatchSavedCard() {
 
       <div class="card-content">
         <p>Name: <strong>${fullName}</strong></p>
-        <p>Street: <strong>${location.street.name}</strong></p>
-        <p>Street Number: <strong>${location.street.number}</strong></p>
-        <p>State: <strong>${location.state}</strong></p>
         <p>City: <strong>${location.city}</strong></p>
       </div>
-    </div>`;
+    </div>
+    `;
 
     savedContainer.appendChild(showSavedCard);
   });

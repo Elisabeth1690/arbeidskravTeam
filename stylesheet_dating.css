@@ -1,21 +1,14 @@
 * {
   margin: 0;
   padding: 0;
+  width: 100%;
 }
 
 body {
   background-color: rgb(242, 210, 159);
-  width: 100%;
-}
-
-.container {
-  max-width: 1140px;
-  margin: 0 auto;
-  padding: 25px;
 }
 
 img {
-  display: block;
   width: 100%;
   height: auto;
 }
@@ -26,30 +19,41 @@ header {
   margin: 40px 0px;
   color: rgb(0, 0, 0);
 }
-
+#swipes-Txt {
+  text-align: center;
+  margin: 20px 0px;
+  font-size: large;
+}
 button {
   width: 100px;
   height: 40px;
-  margin: 10px;
+  margin: 10px 30px;
 }
 
+#genderBtn {
+  display: flex;
+  justify-content: center;
+}
+#Yes-No-Btn {
+  display: flex;
+  justify-content: center;
+}
 #left-Btn {
   background-color: rgb(255, 37, 8);
+  margin: 20px 40px;
 }
 #right-Btn {
   background-color: rgb(0, 154, 23);
+  margin: 20px 40px;
 }
 
 #card-list {
-  margin: 40px 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, 270px);
-  gap: 14px;
+  display: flex;
+  justify-content: center;
 }
 #saved-Container {
   display: flex;
   flex-direction: row;
-  align-items: flex-end;
 }
 
 .card.male {
@@ -64,16 +68,17 @@ button {
   border: 2px solid #6b7280;
   border-radius: 7px;
   padding: 20px 12px;
-
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: 250px;
+  width: 200px;
 }
 
 .card-content {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 20px;
 }
 
 .card-image {
@@ -87,11 +92,6 @@ button {
   height: 80px;
   border: 3px solid #1e293b;
   border-radius: 50%;
-}
-
-.card h3 {
-  margin-bottom: 5px;
-  font-size: 18px;
 }
 
 .card p {
