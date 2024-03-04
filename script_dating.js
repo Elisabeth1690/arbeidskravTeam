@@ -30,6 +30,7 @@ document.addEventListener("keyup", async function (countDown) {
     decrementCounter();
     await display();
     savedCard();
+    FatchSavedCard();
   }
 
   if (countDown.code === "ArrowLeft") {
@@ -184,18 +185,25 @@ function FatchSavedCard() {
       <div class="card-content">
         <p>Name: <strong>${fullName}</strong></p>
         <div class="SavedBtn">
-        <button class="changeBtn firstName">Endre for navn</button>
-        <button class="changeBtn LastName">Endre etternavn</button>
+        <button id="first-Name" class="changeBtn">Endre navn</button>
+        <button id="last-Name" class="changeBtn">Endre etternavn</button>
         </div>
         <p>City: <strong>${city}</strong></p>
-        <button class="changeBtn City">endre by</button>
+        <button  id="city" class="changeBtn City">endre by</button>
       </div>
     </div>
     `;
-    const firstNameBtn = document.getElementsByClassName("firstName");
-    const lastNameBtn = document.getElementsByClassName("LastName");
-    const cityBtn = document.getElementsByClassName("City");
+    const firstNameBtn = document.getElementById("first-Name");
+    const lastNameBtn = document.getElementById("last-Name");
+    const cityBtn = document.getElementById("city");
+    firstNameBtn.onclick = ChangeCity();
+    lastNameBtn.onclick = ChangeCity();
+    cityBtn.onclick = ChangeCity();
 
     savedContainer.appendChild(showSavedCard);
   });
+}
+function ChangeCity() {
+  let UserName = prompt("Skriv inn nytt Fornavn");
+  UserName.value;
 }
