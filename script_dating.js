@@ -140,6 +140,7 @@ function savedCard() {
       savedInLocalStorge(singleCard);
     }
   }
+  FatchSavedCard();
 }
 
 function savedInLocalStorge(singleCard) {
