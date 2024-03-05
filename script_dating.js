@@ -163,16 +163,16 @@ FatchSavedCard();
 function FatchSavedCard() {
   const retrieveSavedCard = JSON.parse(localStorage.getItem("Match")) || [];
   savedContainer.innerHTML = "";
-  retrieveSavedCard.forEach((cardSaved) => {
+  retrieveSavedCard.forEach((cardSaved, index) => {
     const showSavedCard = document.createElement("div");
     const name = cardSaved.name;
     const gender = cardSaved.gender;
     const imageUrl = cardSaved.picture.large;
     const location = cardSaved.location;
+    const idCard = cardSaved.id;
     let city = location.city;
     let firstName = name.first;
     let lastName = name.last;
-    const fullName = `${firstName}  ${lastName}`;
     savedContainer.innerHTML += `
     <div class="card ${gender}">
       <div class="card-image">
@@ -183,27 +183,43 @@ function FatchSavedCard() {
       </div>
 
       <div class="card-content">
-        <p>Name: <strong>${fullName}</strong></p>
-        <div class="SavedBtn">
-        <button id="first-Name" class="changeBtn">Endre navn</button>
-        <button id="last-Name" class="changeBtn">Endre etternavn</button>
-        </div>
+        <p>Name: <strong>${firstName} ${lastName}</strong></p>
+        
+        <button id="rewrite">Redigere</button>
+      
         <p>City: <strong>${city}</strong></p>
-        <button  id="city" class="changeBtn City">endre by</button>
       </div>
     </div>
     `;
-    const firstNameBtn = document.getElementById("first-Name");
-    const lastNameBtn = document.getElementById("last-Name");
-    const cityBtn = document.getElementById("city");
-    firstNameBtn.onclick = ChangeCity();
-    lastNameBtn.onclick = ChangeCity();
-    cityBtn.onclick = ChangeCity();
+    const rewriteBtn = document.getElementById("rewrite");
+
+    rewriteBtn.addEventListener("click", () => {
+      rewrite(cardSaved, idCard);
+    });
 
     savedContainer.appendChild(showSavedCard);
   });
 }
-function ChangeCity() {
-  let UserName = prompt("Skriv inn nytt Fornavn");
-  UserName.value;
+
+function rewrite(cardSaved, idCard) {
+  let newName = prompt("Skriv inn ny fornavn");
+  let newLastName = prompt("Skriv inn ny etternavn");
+  let newCity = prompt("Skriv inn ny by");
+  if (newName !== null) {
+    cardSaved.name.first = newName;
+  }
+
+  if (newLastName !== null) {
+    cardSaved.name.last = newLastName;
+  }
+  if (newCity !== null) {
+    cardSaved.location.city = newCity;
+  }
+  console.log(newCity, newLastName, newName);
+  const savedCardLocal = JSON.parse(localStorage.getItem("Match")) || [];
+  const updatedSavedCards = savedCardLocal.map((savedCard) => {
+    if (savedCard.id === idCard) {
+      localStorage.setItem("Match", JSON.stringify(updatedSavedCards));
+    }
+  });
 }
