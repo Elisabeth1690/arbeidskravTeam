@@ -174,8 +174,9 @@ function FatchSavedCard() {
     let city = location.city;
     let firstName = name.first;
     let lastName = name.last;
+
     savedContainer.innerHTML += `
-    <div class="card ${gender}" id="${idCard}">
+    <div class="card ${gender}">
       <div class="card-image">
         <img
           src="${imageUrl}"
@@ -222,7 +223,7 @@ function rewrite(cardSaved, idCard) {
   if (cardSaved.id.name === idCard) {
     console.log(idCard);
     savedCardLocal.push(cardSaved);
-    console.log(savedCardLocal);
+    console.log(savedCardLocal, "dette blir lagret", cardSaved);
     localStorage.setItem("Match", JSON.stringify(savedCardLocal));
     FatchSavedCard();
   }
