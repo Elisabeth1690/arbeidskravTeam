@@ -163,14 +163,16 @@ FatchSavedCard();
 function FatchSavedCard() {
   const retrieveSavedCard = JSON.parse(localStorage.getItem("Match")) || [];
   savedContainer.innerHTML = "";
-  retrieveSavedCard.forEach((cardSaved) => {
+  retrieveSavedCard.forEach((cardSaved, index) => {
     const showSavedCard = document.createElement("div");
     const name = cardSaved.name;
     const gender = cardSaved.gender;
     const imageUrl = cardSaved.picture.large;
     const location = cardSaved.location;
     const fullName = `${name.first}  ${name.last}`;
-    savedContainer.innerHTML += `
+    showSavedCard.classList.add("saved-card");
+
+    showSavedCard.innerHTML = `
     <div class="card ${gender}">
       <div class="card-image">
         <img
@@ -183,9 +185,26 @@ function FatchSavedCard() {
         <p>Name: <strong>${fullName}</strong></p>
         <p>City: <strong>${location.city}</strong></p>
       </div>
+      <button class="delete-btn" data-index="${index}">Delete</button>
     </div>
     `;
 
     savedContainer.appendChild(showSavedCard);
+
+    const deleteBtn = document.querySelector(
+      `.delete-btn[data-index='${index}']`
+    );
+    deleteBtn.addEventListener("click", () => {
+      deleteSavedCard(index);
+    });
   });
+}
+
+function deleteSavedCard(index) {
+  const fetchSavedCard = JSON.parse(localStorage.getItem("Match")) || [];
+  fetchSavedCard.splice(index, 1);
+
+  localStorage.setItem("Match", JSON.stringify(fetchSavedCard));
+
+  FatchSavedCard();
 }
