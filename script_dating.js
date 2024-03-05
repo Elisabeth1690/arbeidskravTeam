@@ -83,10 +83,11 @@ function showUserCard(cardInfo) {
   const gender = cardInfo.gender;
   const imageUrl = cardInfo.picture.large;
   const location = cardInfo.location;
+  const idCard = cardInfo.id.name;
 
   const fullName = `${name.first} ${name.last}`;
   const card = `
-    <div class="card ${gender}">
+    <div class="card ${gender}" id="${idCard}">
       <div class="card-image">
         <img
           src="${imageUrl}"
@@ -163,18 +164,18 @@ FatchSavedCard();
 function FatchSavedCard() {
   const retrieveSavedCard = JSON.parse(localStorage.getItem("Match")) || [];
   savedContainer.innerHTML = "";
-  retrieveSavedCard.forEach((cardSaved, index) => {
+  retrieveSavedCard.forEach((cardSaved) => {
     const showSavedCard = document.createElement("div");
     const name = cardSaved.name;
     const gender = cardSaved.gender;
     const imageUrl = cardSaved.picture.large;
     const location = cardSaved.location;
-    const idCard = cardSaved.id;
+    const idCard = cardSaved.id.name;
     let city = location.city;
     let firstName = name.first;
     let lastName = name.last;
     savedContainer.innerHTML += `
-    <div class="card ${gender}">
+    <div class="card ${gender}" id="${idCard}">
       <div class="card-image">
         <img
           src="${imageUrl}"
@@ -192,7 +193,7 @@ function FatchSavedCard() {
     </div>
     `;
     const rewriteBtn = document.getElementById("rewrite");
-
+    console.log(idCard);
     rewriteBtn.addEventListener("click", () => {
       rewrite(cardSaved, idCard);
     });
@@ -217,9 +218,12 @@ function rewrite(cardSaved, idCard) {
   }
   console.log(newCity, newLastName, newName);
   const savedCardLocal = JSON.parse(localStorage.getItem("Match")) || [];
-  const updatedSavedCards = savedCardLocal.map((savedCard) => {
-    if (savedCard.id === idCard) {
-      localStorage.setItem("Match", JSON.stringify(updatedSavedCards));
-    }
-  });
+
+  if (cardSaved.id.name === idCard) {
+    console.log(idCard);
+    savedCardLocal.push(cardSaved);
+    console.log(savedCardLocal);
+    localStorage.setItem("Match", JSON.stringify(savedCardLocal));
+    FatchSavedCard();
+  }
 }
