@@ -30,6 +30,7 @@ document.addEventListener("keyup", async function (countDown) {
     decrementCounter();
     await display();
     savedCard();
+    FatchSavedCard();
   }
 
   if (countDown.code === "ArrowLeft") {
@@ -82,10 +83,11 @@ function showUserCard(cardInfo) {
   const gender = cardInfo.gender;
   const imageUrl = cardInfo.picture.large;
   const location = cardInfo.location;
+  const idCard = cardInfo.id.name;
 
   const fullName = `${name.first} ${name.last}`;
   const card = `
-    <div class="card ${gender}">
+    <div class="card ${gender}" id="${idCard}">
       <div class="card-image">
         <img
           src="${imageUrl}"
@@ -172,7 +174,8 @@ function FatchSavedCard() {
     const fullName = `${name.first}  ${name.last}`;
     showSavedCard.classList.add("saved-card");
 
-    showSavedCard.innerHTML = `
+
+    savedContainer.innerHTML += `
     <div class="card ${gender}">
       <div class="card-image">
         <img
@@ -182,12 +185,20 @@ function FatchSavedCard() {
       </div>
 
       <div class="card-content">
-        <p>Name: <strong>${fullName}</strong></p>
-        <p>City: <strong>${location.city}</strong></p>
+        <p>Name: <strong>${firstName} ${lastName}</strong></p>
+        
+        <button id="rewrite">Redigere</button>
+      
+        <p>City: <strong>${city}</strong></p>
       </div>
       <button class="delete-btn" data-index="${index}">Delete</button>
     </div>
     `;
+    const rewriteBtn = document.getElementById("rewrite");
+    console.log(idCard);
+    rewriteBtn.addEventListener("click", () => {
+      rewrite(cardSaved, idCard);
+    });
 
     savedContainer.appendChild(showSavedCard);
 
@@ -207,4 +218,28 @@ function deleteSavedCard(index) {
   localStorage.setItem("Match", JSON.stringify(fetchSavedCard));
 
   FatchSavedCard();
+function rewrite(cardSaved, idCard) {
+  let newName = prompt("Skriv inn ny fornavn");
+  let newLastName = prompt("Skriv inn ny etternavn");
+  let newCity = prompt("Skriv inn ny by");
+  if (newName !== null) {
+    cardSaved.name.first = newName;
+  }
+
+  if (newLastName !== null) {
+    cardSaved.name.last = newLastName;
+  }
+  if (newCity !== null) {
+    cardSaved.location.city = newCity;
+  }
+  console.log(newCity, newLastName, newName);
+  const savedCardLocal = JSON.parse(localStorage.getItem("Match")) || [];
+
+  if (cardSaved.id.name === idCard) {
+    console.log(idCard);
+    savedCardLocal.push(cardSaved);
+    console.log(savedCardLocal, "dette blir lagret", cardSaved);
+    localStorage.setItem("Match", JSON.stringify(savedCardLocal));
+    FatchSavedCard();
+  }
 }
