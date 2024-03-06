@@ -51,9 +51,9 @@ header {
   flex-direction: row;
 }
 .changeBtn {
-  width: 100px;
-  height: 30px;
-  margin: 0px 10px;
+  width: 80px;
+  height: 35px;
+  margin: 0px 5px;
 }
 #card-list {
   display: flex;

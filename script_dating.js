@@ -7,11 +7,6 @@ const femaleBtn = document.getElementById("female-Btn");
 const maleBtn = document.getElementById("male-Btn");
 const femaleMaleBtn = document.getElementById("female-Male-Btn");
 
-//legg til function om å bytte bilde og lagre dette i et array
-rightBtn.addEventListener("click", decrementCounter);
-//legg til function om å bytte bilde og kaste dette
-leftBtn.onclick = decrementCounter;
-
 const cards = [];
 let userCounter = 10;
 let singleCard = {};
@@ -83,11 +78,10 @@ function showUserCard(cardInfo) {
   const gender = cardInfo.gender;
   const imageUrl = cardInfo.picture.large;
   const location = cardInfo.location;
-  const idCard = cardInfo.id.name;
 
   const fullName = `${name.first} ${name.last}`;
   const card = `
-    <div class="card ${gender}" id="${idCard}">
+    <div class="card ${gender}">
       <div class="card-image">
         <img
           src="${imageUrl}"
@@ -132,21 +126,21 @@ document.addEventListener("click", async (e) => {
 });
 
 function savedCard() {
-  if (cards.length <= 10) {
+  if (cards.length < 10) {
     const findCard = cards.some(
       (item) => item.id.value === singleCard.id.value
     );
     if (!findCard) {
       cards.push(singleCard);
-      console.log(singleCard);
+      console.log(singleCard, cards, "inne i savedcards");
       savedInLocalStorge(singleCard);
     }
   }
 }
 
 function savedInLocalStorge(singleCard) {
-  if (cards.length <= 10) {
-    const savedCardLocal = JSON.parse(localStorage.getItem("Match")) || [];
+  const savedCardLocal = JSON.parse(localStorage.getItem("Match")) || [];
+  if (savedCardLocal.length < 10) {
     savedCardLocal.push(singleCard);
     localStorage.setItem("Match", JSON.stringify(savedCardLocal));
     console.log(cards, "kortene");
@@ -164,6 +158,7 @@ FatchSavedCard();
 function FatchSavedCard() {
   const retrieveSavedCard = JSON.parse(localStorage.getItem("Match")) || [];
   savedContainer.innerHTML = "";
+
   retrieveSavedCard.forEach((cardSaved) => {
     const showSavedCard = document.createElement("div");
     const name = cardSaved.name;
@@ -177,6 +172,7 @@ function FatchSavedCard() {
 
     savedContainer.innerHTML += `
     <div class="card ${gender}">
+    <p>${idCard}</p>
       <div class="card-image">
         <img
           src="${imageUrl}"
@@ -193,17 +189,17 @@ function FatchSavedCard() {
       </div>
     </div>
     `;
+
     const rewriteBtn = document.getElementById("rewrite");
     console.log(idCard);
     rewriteBtn.addEventListener("click", () => {
-      rewrite(cardSaved, idCard);
+      rewrite(cardSaved);
     });
-
-    savedContainer.appendChild(showSavedCard);
+    console.log(cardSaved, "inne i hent lagret kort");
   });
 }
 
-function rewrite(cardSaved, idCard) {
+function rewrite(cardSaved) {
   let newName = prompt("Skriv inn ny fornavn");
   let newLastName = prompt("Skriv inn ny etternavn");
   let newCity = prompt("Skriv inn ny by");
@@ -218,13 +214,14 @@ function rewrite(cardSaved, idCard) {
     cardSaved.location.city = newCity;
   }
   console.log(newCity, newLastName, newName);
-  const savedCardLocal = JSON.parse(localStorage.getItem("Match")) || [];
 
-  if (cardSaved.id.name === idCard) {
-    console.log(idCard);
-    savedCardLocal.push(cardSaved);
+  try {
+    const savedCardLocal = JSON.parse(localStorage.getItem("Match")) || [];
+    savedCardLocal.push(cardSaved, index);
     console.log(savedCardLocal, "dette blir lagret", cardSaved);
     localStorage.setItem("Match", JSON.stringify(savedCardLocal));
     FatchSavedCard();
+  } catch (error) {
+    console.error("Feil med endring av navn", error);
   }
 }
