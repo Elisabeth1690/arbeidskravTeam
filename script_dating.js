@@ -136,6 +136,7 @@ function savedCard() {
       savedInLocalStorge(singleCard);
     }
   }
+  FatchSavedCard();
 }
 
 function savedInLocalStorge(singleCard) {
@@ -159,16 +160,15 @@ function FatchSavedCard() {
   const retrieveSavedCard = JSON.parse(localStorage.getItem("Match")) || [];
   savedContainer.innerHTML = "";
 
-  retrieveSavedCard.forEach((cardSaved) => {
+  retrieveSavedCard.forEach((cardSaved, index) => {
     const showSavedCard = document.createElement("div");
     const name = cardSaved.name;
     const gender = cardSaved.gender;
     const imageUrl = cardSaved.picture.large;
     const location = cardSaved.location;
-    const idCard = cardSaved.id.name;
-    let city = location.city;
-    let firstName = name.first;
-    let lastName = name.last;
+    const fullName = `${name.first}  ${name.last}`;
+    showSavedCard.classList.add("saved-card");
+
 
     savedContainer.innerHTML += `
     <div class="card ${gender}">
@@ -187,6 +187,7 @@ function FatchSavedCard() {
       
         <p>City: <strong>${city}</strong></p>
       </div>
+      <button class="delete-btn" data-index="${index}">Delete</button>
     </div>
     `;
 
@@ -195,10 +196,31 @@ function FatchSavedCard() {
     rewriteBtn.addEventListener("click", () => {
       rewrite(cardSaved);
     });
-    console.log(cardSaved, "inne i hent lagret kort");
+
+  
   });
 }
 
+function rewrite(cardSaved) {
+
+    savedContainer.appendChild(showSavedCard);
+
+    const deleteBtn = document.querySelector(
+      `.delete-btn[data-index='${index}']`
+    );
+    deleteBtn.addEventListener("click", () => {
+      deleteSavedCard(index);
+    });
+  });
+}
+
+function deleteSavedCard(index) {
+  const fetchSavedCard = JSON.parse(localStorage.getItem("Match")) || [];
+  fetchSavedCard.splice(index, 1);
+
+  localStorage.setItem("Match", JSON.stringify(fetchSavedCard));
+
+  FatchSavedCard();
 function rewrite(cardSaved) {
   let newName = prompt("Skriv inn ny fornavn");
   let newLastName = prompt("Skriv inn ny etternavn");
