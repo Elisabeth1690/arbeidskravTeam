@@ -145,20 +145,19 @@ function savedCard() {
     if (!findCard) {
       savedInLocalStorge(singleCard);
       cards.push(singleCard);
-      console.log(cards, "savedCard");
     }
+  } else {
+    alert("du kan ikke legge til flere matches for du har slettet minst 1");
   }
-  FatchSavedCard();
 }
 
 function savedInLocalStorge(singleCard) {
-  if (cards.length <= 10) {
+  if (cards.length < 10) {
     const savedCardLocal = JSON.parse(localStorage.getItem("Match")) || [];
     savedCardLocal.push(singleCard);
 
     localStorage.setItem("Match", JSON.stringify(savedCardLocal));
   } else {
-    alert("du kan ikke legge til flere matches for du har slettet minst 1");
   }
 }
 FatchSavedCard();
@@ -197,13 +196,15 @@ function FatchSavedCard() {
     const rewriteBtn = document.querySelector(
       `.rewrite[data-index='${index}']`
     );
-
+    rewriteBtn.style.backgroundColor = "rgb(231, 92, 5)";
     rewriteBtn.addEventListener("click", () => {
       rewrite(cardSaved, index);
     });
+
     const deleteBtn = document.querySelector(
       `.delete-btn[data-index='${index}']`
     );
+    // deleteBtn.style.backgroundColor = "rgb(255, 37, 8)";
     deleteBtn.addEventListener("click", () => {
       deleteSavedCard(index);
     });
@@ -217,7 +218,6 @@ function deleteSavedCard(index) {
     cards = rewriteSavedCard;
     localStorage.setItem("Match", JSON.stringify(rewriteSavedCard));
     FatchSavedCard();
-    console.log(cards);
   } catch (error) {
     console.error("klarte ikke og oppdatere arrayet", error);
   }
@@ -227,20 +227,19 @@ function rewrite(cardSaved, index) {
   let newName = prompt("Skriv inn ny fornavn");
   let newLastName = prompt("Skriv inn ny etternavn");
   let newCity = prompt("Skriv inn ny by");
-
-  if (newName !== null) {
+  console.log(newName);
+  if (newName !== null && newName.trim() !== "") {
     cardSaved.name.first = newName;
   }
 
-  if (newLastName !== null) {
+  if (newLastName !== null && newLastName.trim() !== "") {
     cardSaved.name.last = newLastName;
   }
-  if (newCity !== null) {
+  if (newCity !== null && newCity.trim() !== "") {
     cardSaved.location.city = newCity;
   }
 
   try {
-    console.log(cards, "hei");
     cards[index] = cardSaved;
     const savedCardLocal = JSON.parse(localStorage.getItem("Match")) || [];
     savedCardLocal[index] = cardSaved;
