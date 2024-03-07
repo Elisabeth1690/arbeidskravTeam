@@ -7,7 +7,7 @@ const femaleBtn = document.querySelector(`#female-Btn`);
 const maleBtn = document.querySelector(`#male-Btn`);
 const femaleMaleBtn = document.querySelector(`#female-Male-Btn`);
 
-const cards = [];
+let cards = [];
 let userCounter = 10;
 let singleCard = {};
 let allowGenderToShow = undefined;
@@ -141,9 +141,11 @@ function savedCard() {
     const findCard = cards.some(
       (item) => item.id.value === singleCard.id.value
     );
-    cards.push(singleCard);
+
     if (!findCard) {
       savedInLocalStorge(singleCard);
+      cards.push(singleCard);
+      console.log(cards, "savedCard");
     }
   }
   FatchSavedCard();
@@ -209,12 +211,16 @@ function FatchSavedCard() {
 }
 
 function deleteSavedCard(index) {
-  const fetchSavedCard = JSON.parse(localStorage.getItem("Match")) || [];
-  fetchSavedCard.splice(index, 1);
-
-  localStorage.setItem("Match", JSON.stringify(fetchSavedCard));
-
-  FatchSavedCard();
+  const rewriteSavedCard = JSON.parse(localStorage.getItem("Match")) || [];
+  rewriteSavedCard.splice(index, 1);
+  try {
+    cards = rewriteSavedCard;
+    localStorage.setItem("Match", JSON.stringify(rewriteSavedCard));
+    FatchSavedCard();
+    console.log(cards);
+  } catch (error) {
+    console.error("klarte ikke og oppdatere arrayet", error);
+  }
 }
 
 function rewrite(cardSaved, index) {
@@ -235,6 +241,7 @@ function rewrite(cardSaved, index) {
 
   try {
     console.log(cards, "hei");
+    cards[index] = cardSaved;
     const savedCardLocal = JSON.parse(localStorage.getItem("Match")) || [];
     savedCardLocal[index] = cardSaved;
 
