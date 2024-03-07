@@ -1,13 +1,13 @@
-const leftBtn = document.getElementById("left-Btn");
-const rightBtn = document.getElementById("right-Btn");
-const swipsTxtRewrite = document.getElementById("swipes-Txt");
-const cardList = document.getElementById("card-list");
-const savedContainer = document.getElementById("saved-Container");
-const femaleBtn = document.getElementById("female-Btn");
-const maleBtn = document.getElementById("male-Btn");
-const femaleMaleBtn = document.getElementById("female-Male-Btn");
+const leftBtn = document.querySelector(`#left-Btn`);
+const rightBtn = document.querySelector(`#right-Btn`);
+const swipsTxtRewrite = document.querySelector(`#swipes-Txt`);
+const cardList = document.querySelector(`#card-list`);
+const savedContainer = document.querySelector(`#saved-Container`);
+const femaleBtn = document.querySelector(`#female-Btn`);
+const maleBtn = document.querySelector(`#male-Btn`);
+const femaleMaleBtn = document.querySelector(`#female-Male-Btn`);
 
-const cards = [];
+let cards = [];
 let userCounter = 10;
 let singleCard = {};
 let allowGenderToShow = undefined;
@@ -19,6 +19,19 @@ window.onload = async () => {
 
   await display();
 };
+document.addEventListener("click", async function (countDown) {
+  if (countDown.target === rightBtn) {
+    decrementCounter();
+    await display();
+    savedCard();
+    FatchSavedCard();
+  }
+
+  if (countDown.target === leftBtn) {
+    decrementCounter();
+    await display();
+  }
+});
 
 document.addEventListener("keyup", async function (countDown) {
   if (countDown.code === "ArrowRight") {
@@ -32,8 +45,6 @@ document.addEventListener("keyup", async function (countDown) {
     decrementCounter();
     await display();
   }
-
-  //NY function om å bytte bilde og lagre dette i et array
 });
 
 function decrementCounter() {
@@ -130,10 +141,11 @@ function savedCard() {
     const findCard = cards.some(
       (item) => item.id.value === singleCard.id.value
     );
+
     if (!findCard) {
-      cards.push(singleCard);
-      console.log(singleCard);
       savedInLocalStorge(singleCard);
+      cards.push(singleCard);
+      console.log(cards, "savedCard");
     }
   }
   FatchSavedCard();
@@ -143,14 +155,13 @@ function savedInLocalStorge(singleCard) {
   if (cards.length <= 10) {
     const savedCardLocal = JSON.parse(localStorage.getItem("Match")) || [];
     savedCardLocal.push(singleCard);
+
     localStorage.setItem("Match", JSON.stringify(savedCardLocal));
-    console.log(cards, "kortene");
-    console.log(savedCardLocal, "inne i localStorage");
   } else {
     alert("du kan ikke legge til flere matches for du har slettet minst 1");
   }
 }
-
+FatchSavedCard();
 function FatchSavedCard() {
   const rewriteSavedCard = JSON.parse(localStorage.getItem("Match")) || [];
   savedContainer.innerHTML = "";
@@ -200,21 +211,27 @@ function FatchSavedCard() {
 }
 
 function deleteSavedCard(index) {
-  const fetchSavedCard = JSON.parse(localStorage.getItem("Match")) || [];
-  fetchSavedCard.splice(index, 1);
-
-  localStorage.setItem("Match", JSON.stringify(fetchSavedCard));
-
-  FatchSavedCard();
+  const rewriteSavedCard = JSON.parse(localStorage.getItem("Match")) || [];
+  rewriteSavedCard.splice(index, 1);
+  try {
+    cards = rewriteSavedCard;
+    localStorage.setItem("Match", JSON.stringify(rewriteSavedCard));
+    FatchSavedCard();
+    console.log(cards);
+  } catch (error) {
+    console.error("klarte ikke og oppdatere arrayet", error);
+  }
 }
 
 function rewrite(cardSaved, index) {
   let newName = prompt("Skriv inn ny fornavn");
   let newLastName = prompt("Skriv inn ny etternavn");
   let newCity = prompt("Skriv inn ny by");
+
   if (newName !== null) {
     cardSaved.name.first = newName;
   }
+
   if (newLastName !== null) {
     cardSaved.name.last = newLastName;
   }
@@ -223,6 +240,8 @@ function rewrite(cardSaved, index) {
   }
 
   try {
+    console.log(cards, "hei");
+    cards[index] = cardSaved;
     const savedCardLocal = JSON.parse(localStorage.getItem("Match")) || [];
     savedCardLocal[index] = cardSaved;
 
