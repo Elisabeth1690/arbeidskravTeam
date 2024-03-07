@@ -7,11 +7,6 @@ const femaleBtn = document.getElementById("female-Btn");
 const maleBtn = document.getElementById("male-Btn");
 const femaleMaleBtn = document.getElementById("female-Male-Btn");
 
-//legg til function om å bytte bilde og lagre dette i et array
-rightBtn.addEventListener("click", decrementCounter);
-//legg til function om å bytte bilde og kaste dette
-leftBtn.onclick = decrementCounter;
-
 const cards = [];
 let userCounter = 10;
 let singleCard = {};
@@ -83,11 +78,10 @@ function showUserCard(cardInfo) {
   const gender = cardInfo.gender;
   const imageUrl = cardInfo.picture.large;
   const location = cardInfo.location;
-  const idCard = cardInfo.id.name;
 
   const fullName = `${name.first} ${name.last}`;
   const card = `
-    <div class="card ${gender}" id="${idCard}">
+    <div class="card ${gender}">
       <div class="card-image">
         <img
           src="${imageUrl}"
@@ -157,51 +151,45 @@ function savedInLocalStorge(singleCard) {
   }
 }
 
-function deleteSavedInLocalStorge() {
-  localStorage.removeItem("Match");
-}
-
-FatchSavedCard();
 function FatchSavedCard() {
-  const retrieveSavedCard = JSON.parse(localStorage.getItem("Match")) || [];
+  const rewriteSavedCard = JSON.parse(localStorage.getItem("Match")) || [];
   savedContainer.innerHTML = "";
-  retrieveSavedCard.forEach((cardSaved, index) => {
+  rewriteSavedCard.forEach((cardSaved, index) => {
     const showSavedCard = document.createElement("div");
     const name = cardSaved.name;
     const gender = cardSaved.gender;
     const imageUrl = cardSaved.picture.large;
     const location = cardSaved.location;
-    const fullName = `${name.first}  ${name.last}`;
+    let city = location.city;
+    let firstName = name.first;
+    let lastName = name.last;
     showSavedCard.classList.add("saved-card");
 
-
-    savedContainer.innerHTML += `
+    showSavedCard.innerHTML = `
     <div class="card ${gender}">
       <div class="card-image">
         <img
-          src="${imageUrl}"
-          alt="${name.first}"
-        />
-      </div>
-
-      <div class="card-content">
-        <p>Name: <strong>${firstName} ${lastName}</strong></p>
-        
-        <button id="rewrite">Redigere</button>
-      
+        src="${imageUrl}"
+        alt="${name.first}"
+      />
+    </div>
+    <div class="card-content">
+    <p>Name: <strong>${firstName} ${lastName}</strong></p>
+    <button class="rewrite" data-index="${index}">Redigere</button>
         <p>City: <strong>${city}</strong></p>
       </div>
       <button class="delete-btn" data-index="${index}">Delete</button>
     </div>
     `;
-    const rewriteBtn = document.getElementById("rewrite");
-    console.log(idCard);
-    rewriteBtn.addEventListener("click", () => {
-      rewrite(cardSaved, idCard);
-    });
 
     savedContainer.appendChild(showSavedCard);
+    const rewriteBtn = document.querySelector(
+      `.rewrite[data-index='${index}']`
+    );
 
+    rewriteBtn.addEventListener("click", () => {
+      rewrite(cardSaved, index);
+    });
     const deleteBtn = document.querySelector(
       `.delete-btn[data-index='${index}']`
     );
@@ -218,28 +206,29 @@ function deleteSavedCard(index) {
   localStorage.setItem("Match", JSON.stringify(fetchSavedCard));
 
   FatchSavedCard();
-function rewrite(cardSaved, idCard) {
+}
+
+function rewrite(cardSaved, index) {
   let newName = prompt("Skriv inn ny fornavn");
   let newLastName = prompt("Skriv inn ny etternavn");
   let newCity = prompt("Skriv inn ny by");
   if (newName !== null) {
     cardSaved.name.first = newName;
   }
-
   if (newLastName !== null) {
     cardSaved.name.last = newLastName;
   }
   if (newCity !== null) {
     cardSaved.location.city = newCity;
   }
-  console.log(newCity, newLastName, newName);
-  const savedCardLocal = JSON.parse(localStorage.getItem("Match")) || [];
 
-  if (cardSaved.id.name === idCard) {
-    console.log(idCard);
-    savedCardLocal.push(cardSaved);
-    console.log(savedCardLocal, "dette blir lagret", cardSaved);
+  try {
+    const savedCardLocal = JSON.parse(localStorage.getItem("Match")) || [];
+    savedCardLocal[index] = cardSaved;
+
     localStorage.setItem("Match", JSON.stringify(savedCardLocal));
     FatchSavedCard();
+  } catch (error) {
+    console.error("Feil med endring av navn", error);
   }
 }
