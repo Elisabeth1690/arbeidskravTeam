@@ -67,8 +67,7 @@ function resetCounter() {
     resetCounter();
   }
 }
-//Faisal
-//Denne koden gender
+
 async function fetchRandomUser(gender = undefined) {
   const res = await fetch(
     `https://randomuser.me/api?` + new URLSearchParams({ gender })
@@ -115,8 +114,7 @@ document.addEventListener("click", async (e) => {
     femaleBtn.style.backgroundColor = "rgb(0, 154, 23)";
     maleBtn.style.backgroundColor = "rgb(255, 37, 8)";
     femaleMaleBtn.style.backgroundColor = "rgb(255, 37, 8)";
-    fetchRandomUser("female");
-    //allowGenderToShow = "female";
+    allowGenderToShow = "female";
     display();
   }
   if (e.target === maleBtn) {
