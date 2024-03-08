@@ -19,6 +19,8 @@ window.onload = async () => {
 
   await display();
 };
+
+// lagde den koden, for å gjøre diden litt mer bruker vennlig -- Elisabeth
 document.addEventListener("click", async function (countDown) {
   if (countDown.target === rightBtn) {
     decrementCounter();
@@ -207,7 +209,7 @@ function FatchSavedCard() {
     });
   });
 }
-
+// så på hvordan Eduardo hadde gjort det på delet knappen for å se hvordan jeg skulle få til indxen -- Elisabeth
 function deleteSavedCard(index) {
   const rewriteSavedCard = JSON.parse(localStorage.getItem("Match")) || [];
   rewriteSavedCard.splice(index, 1);
@@ -219,7 +221,8 @@ function deleteSavedCard(index) {
     console.error("klarte ikke og oppdatere arrayet", error);
   }
 }
-
+// fikk hjelp av ChatGPT til hva jeg måte sammenligne i if() for at navnet
+//skulle bli stående, vis jeg ikke skrev noe inn -- Elisabeth
 function rewrite(cardSaved, index) {
   let newName = prompt("Skriv inn ny fornavn");
   let newLastName = prompt("Skriv inn ny etternavn");
@@ -247,3 +250,9 @@ function rewrite(cardSaved, index) {
     console.error("Feil med endring av navn", error);
   }
 }
+/* når Eduardo jobbet med delete functionen og jeg med redigeres functionen
+så ble det så mye tull når jeg skulle merge fra main og til main fra min
+orgianle branch2 at jeg til slutt lagde en ny. Jeg satt lenge og prøvde og løse konfliktene 
+uten og lykkes. Prøvde vi terminalen og via GitHub, så mistenker at det er 
+det som gjorde at det ble feil. -- Elisabeth
+*/
