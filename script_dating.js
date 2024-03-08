@@ -136,7 +136,7 @@ document.addEventListener("click", async (e) => {
 });
 
 function savedCard() {
-  if (cards.length <= 10) {
+  if (cards.length < 10) {
     const findCard = cards.some(
       (item) => item.id.value === singleCard.id.value
     );
