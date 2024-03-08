@@ -50,7 +50,7 @@ document.addEventListener("keyup", async function (countDown) {
 function decrementCounter() {
   userCounter--;
 
-  if (userCounter <= -1) {
+  if (userCounter <= 0) {
     resetCounter();
   }
 
