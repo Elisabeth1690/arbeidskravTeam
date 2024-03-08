@@ -114,7 +114,6 @@ document.addEventListener("click", async (e) => {
     femaleBtn.style.backgroundColor = "rgb(0, 154, 23)";
     maleBtn.style.backgroundColor = "rgb(255, 37, 8)";
     femaleMaleBtn.style.backgroundColor = "rgb(255, 37, 8)";
-
     allowGenderToShow = "female";
     display();
   }
@@ -196,7 +195,6 @@ function FatchSavedCard() {
     const rewriteBtn = document.querySelector(
       `.rewrite[data-index='${index}']`
     );
-    rewriteBtn.style.backgroundColor = "rgb(231, 92, 5)";
     rewriteBtn.addEventListener("click", () => {
       rewrite(cardSaved, index);
     });
@@ -204,7 +202,6 @@ function FatchSavedCard() {
     const deleteBtn = document.querySelector(
       `.delete-btn[data-index='${index}']`
     );
-    // deleteBtn.style.backgroundColor = "rgb(255, 37, 8)";
     deleteBtn.addEventListener("click", () => {
       deleteSavedCard(index);
     });
