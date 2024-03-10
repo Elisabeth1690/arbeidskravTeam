@@ -1,18 +1,13 @@
-const leftBtn = document.getElementById("left-Btn");
-const rightBtn = document.getElementById("right-Btn");
-const swipsTxtRewrite = document.getElementById("swipes-Txt");
-const cardList = document.getElementById("card-list");
-const savedContainer = document.getElementById("saved-Container");
-const femaleBtn = document.getElementById("female-Btn");
-const maleBtn = document.getElementById("male-Btn");
-const femaleMaleBtn = document.getElementById("female-Male-Btn");
+const leftBtn = document.querySelector(`#left-Btn`);
+const rightBtn = document.querySelector(`#right-Btn`);
+const swipsTxtRewrite = document.querySelector(`#swipes-Txt`);
+const cardList = document.querySelector(`#card-list`);
+const savedContainer = document.querySelector(`#saved-Container`);
+const femaleBtn = document.querySelector(`#female-Btn`);
+const maleBtn = document.querySelector(`#male-Btn`);
+const femaleMaleBtn = document.querySelector(`#female-Male-Btn`);
 
-//legg til function om å bytte bilde og lagre dette i et array
-rightBtn.addEventListener("click", decrementCounter);
-//legg til function om å bytte bilde og kaste dette
-leftBtn.onclick = decrementCounter;
-
-const cards = [];
+let cards = [];
 let userCounter = 10;
 let singleCard = {};
 let allowGenderToShow = undefined;
@@ -25,25 +20,39 @@ window.onload = async () => {
   await display();
 };
 
+// lagde den koden, for å gjøre diden litt mer bruker vennlig -- Elisabeth
+document.addEventListener("click", async function (countDown) {
+  if (countDown.target === rightBtn) {
+    decrementCounter();
+    await display();
+    savedCard();
+    FatchSavedCard();
+  }
+
+  if (countDown.target === leftBtn) {
+    decrementCounter();
+    await display();
+  }
+});
+
 document.addEventListener("keyup", async function (countDown) {
   if (countDown.code === "ArrowRight") {
     decrementCounter();
     await display();
     savedCard();
+    FatchSavedCard();
   }
 
   if (countDown.code === "ArrowLeft") {
     decrementCounter();
     await display();
   }
-
-  //NY function om å bytte bilde og lagre dette i et array
 });
 
 function decrementCounter() {
   userCounter--;
 
-  if (userCounter <= -1) {
+  if (userCounter <= 0) {
     resetCounter();
   }
 
@@ -83,7 +92,7 @@ function showUserCard(cardInfo) {
   const imageUrl = cardInfo.picture.large;
   const location = cardInfo.location;
 
-  const fullName = `${name.title} ${name.first} ${name.last}`;
+  const fullName = `${name.first} ${name.last}`;
   const card = `
     <div class="card ${gender}">
       <div class="card-image">
@@ -95,9 +104,6 @@ function showUserCard(cardInfo) {
 
       <div class="card-content">
         <p>Name: <strong>${fullName}</strong></p>
-        <p>Street: <strong>${location.street.name}</strong></p>
-        <p>Street Number: <strong>${location.street.number}</strong></p>
-        <p>State: <strong>${location.state}</strong></p>
         <p>City: <strong>${location.city}</strong></p>
       </div>
     </div>`;
@@ -110,7 +116,6 @@ document.addEventListener("click", async (e) => {
     femaleBtn.style.backgroundColor = "rgb(0, 154, 23)";
     maleBtn.style.backgroundColor = "rgb(255, 37, 8)";
     femaleMaleBtn.style.backgroundColor = "rgb(255, 37, 8)";
-
     allowGenderToShow = "female";
     display();
   }
@@ -129,47 +134,125 @@ document.addEventListener("click", async (e) => {
 
     allowGenderToShow = undefined;
     display();
-    deleteSavedInLocalStorge();
   }
 });
 
 function savedCard() {
-  if (cards.length <= 10) {
+  if (cards.length < 10) {
     const findCard = cards.some(
       (item) => item.id.value === singleCard.id.value
     );
-    if (!findCard) {
-      cards.push(singleCard);
-      console.log(singleCard);
-      savedInLocalStorge(singleCard);
-    }
-  }
-}
 
-function savedInLocalStorge(singleCard) {
-  if (cards.length <= 10) {
-    const savedCardLocal = JSON.parse(localStorage.getItem("Match")) || [];
-    savedCardLocal.push(singleCard);
-    localStorage.setItem("Match", JSON.stringify(savedCardLocal));
-    console.log(cards, "kortene");
-    console.log(savedCardLocal, "inne i localStorage");
+    if (!findCard) {
+      savedInLocalStorge(singleCard);
+      cards.push(singleCard);
+    }
   } else {
     alert("du kan ikke legge til flere matches for du har slettet minst 1");
   }
 }
 
-function deleteSavedInLocalStorge() {
-  localStorage.removeItem("Match");
-}
+function savedInLocalStorge(singleCard) {
+  if (cards.length < 10) {
+    const savedCardLocal = JSON.parse(localStorage.getItem("Match")) || [];
+    savedCardLocal.push(singleCard);
 
-FatchSavedCard();
-function FatchSavedCard() {
-  const retiwSavedCard = JSON.parse(localStorage.getItem("Match")) || [];
-  savedContainer.innerHTML = "";
-  for (let i = 0; i <= 10; i++) {
-    const showSavedCard = document.createElement("div");
-    savedContainer.innerHTML = retiwSavedCard;
-
-    savedContainer.appendChild(showSavedCard);
+    localStorage.setItem("Match", JSON.stringify(savedCardLocal));
+  } else {
   }
 }
+FatchSavedCard();
+function FatchSavedCard() {
+  const rewriteSavedCard = JSON.parse(localStorage.getItem("Match")) || [];
+  savedContainer.innerHTML = "";
+  rewriteSavedCard.forEach((cardSaved, index) => {
+    const showSavedCard = document.createElement("div");
+    const name = cardSaved.name;
+    const gender = cardSaved.gender;
+    const imageUrl = cardSaved.picture.large;
+    const location = cardSaved.location;
+    let city = location.city;
+    let firstName = name.first;
+    let lastName = name.last;
+    showSavedCard.classList.add("saved-card");
+
+    showSavedCard.innerHTML = `
+    <div class="card ${gender}">
+      <div class="card-image">
+        <img
+        src="${imageUrl}"
+        alt="${name.first}"
+      />
+    </div>
+    <div class="card-content">
+    <p>Name: <strong>${firstName} ${lastName}</strong></p>
+    <button class="rewrite" data-index="${index}">Redigere</button>
+        <p>City: <strong>${city}</strong></p>
+      </div>
+      <button class="delete-btn" data-index="${index}">Delete</button>
+    </div>
+    `;
+
+    savedContainer.appendChild(showSavedCard);
+    const rewriteBtn = document.querySelector(
+      `.rewrite[data-index='${index}']`
+    );
+    rewriteBtn.addEventListener("click", () => {
+      rewrite(cardSaved, index);
+    });
+
+    const deleteBtn = document.querySelector(
+      `.delete-btn[data-index='${index}']`
+    );
+    deleteBtn.addEventListener("click", () => {
+      deleteSavedCard(index);
+    });
+  });
+}
+// så på hvordan Eduardo hadde gjort det på delet knappen for å se hvordan jeg skulle få til indxen -- Elisabeth
+function deleteSavedCard(index) {
+  const rewriteSavedCard = JSON.parse(localStorage.getItem("Match")) || [];
+  rewriteSavedCard.splice(index, 1);
+  try {
+    cards = rewriteSavedCard;
+    localStorage.setItem("Match", JSON.stringify(rewriteSavedCard));
+    FatchSavedCard();
+  } catch (error) {
+    console.error("klarte ikke og oppdatere arrayet", error);
+  }
+}
+// fikk hjelp av ChatGPT til hva jeg måte sammenligne i if() for at navnet
+//skulle bli stående, vis jeg ikke skrev noe inn -- Elisabeth
+function rewrite(cardSaved, index) {
+  let newName = prompt("Skriv inn ny fornavn");
+  let newLastName = prompt("Skriv inn ny etternavn");
+  let newCity = prompt("Skriv inn ny by");
+  console.log(newName);
+  if (newName !== null && newName.trim() !== "") {
+    cardSaved.name.first = newName;
+  }
+
+  if (newLastName !== null && newLastName.trim() !== "") {
+    cardSaved.name.last = newLastName;
+  }
+  if (newCity !== null && newCity.trim() !== "") {
+    cardSaved.location.city = newCity;
+  }
+
+  try {
+    cards[index] = cardSaved;
+    const savedCardLocal = JSON.parse(localStorage.getItem("Match")) || [];
+    savedCardLocal[index] = cardSaved;
+
+    localStorage.setItem("Match", JSON.stringify(savedCardLocal));
+    FatchSavedCard();
+  } catch (error) {
+    console.error("Feil med endring av navn", error);
+  }
+}
+/* når Eduardo jobbet med delete functionen og jeg med redigeres functionen
+så ble det så mye tull når jeg skulle merge fra main og til main fra min
+orgianle branch2 at jeg til slutt lagde en ny. Jeg satt lenge og prøvde og løse konfliktene 
+uten og lykkes. Prøvde vi terminalen og via GitHub, så mistenker at det er 
+det som gjorde at det ble feil. -- Elisabeth
+*/
