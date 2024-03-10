@@ -194,7 +194,7 @@ const dogSays = () => {
   return dogArray[randomIndex];
 }
 
-
+// Create dogcards with img and user info
 const displayCard = (imageUserPairs) => {
   profileCardContainer.innerHTML = "";
   imageUserPairs.forEach((pair) => {
