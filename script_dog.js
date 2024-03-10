@@ -204,6 +204,14 @@ const fetchBreed = async (breed) => {
   }
 };
 
+const dogArray = ["Voff voff", "Grrr!", "Mjau??", "Voff!", "Voff voff voff", "WRAFF!!!"];
+
+const dogSays = () => {
+  const randomIndex = Math.floor(Math.random() * dogArray.length);
+  return dogArray[randomIndex];
+}
+
+// Create dogcards with img and user info
 const displayCard = (imageUserPairs) => {
   profileCardContainer.innerHTML = "";
   imageUserPairs.forEach((pair) => {
